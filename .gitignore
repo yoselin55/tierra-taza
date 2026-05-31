@@ -1,0 +1,65 @@
+# ───── Dependencias ──────────────────────────────────────────────────────────
+/node_modules
+/vendor
+
+# ───── Entorno y secretos ────────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+auth.json
+
+# ───── Claves y certificados ─────────────────────────────────────────────────
+/storage/*.key
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+
+# ───── Cache y compilados ────────────────────────────────────────────────────
+/bootstrap/cache/*.php
+/storage/framework/cache/data/
+/storage/framework/sessions/
+/storage/framework/views/
+/storage/logs/
+.phpunit.result.cache
+
+# ───── Uploads del usuario ───────────────────────────────────────────────────
+/public/storage
+/storage/app/public/
+
+# ───── Hot-reload Vite ───────────────────────────────────────────────────────
+/public/hot
+/public/build
+
+# ───── IDEs y herramientas locales ───────────────────────────────────────────
+/.fleet
+/.idea
+/.vscode
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ───── Homestead / Vagrant ───────────────────────────────────────────────────
+Homestead.json
+Homestead.yaml
+.vagrant/
+
+# ───── Logs y depuración ─────────────────────────────────────────────────────
+npm-debug.log
+yarn-error.log
+*.log
+
+# ───── Base de datos local ───────────────────────────────────────────────────
+*.sqlite
+*.sqlite3
+database/*.sqlite
+
+# ───── Backups ───────────────────────────────────────────────────────────────
+*.sql
+*.dump
+*.bak
+*.backup
+/storage/app/backups/

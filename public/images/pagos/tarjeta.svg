@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="tg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E3A6E"/>
+      <stop offset="100%" stop-color="#0F1F3D"/>
+    </linearGradient>
+    <linearGradient id="chipg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFD966"/>
+      <stop offset="100%" stop-color="#C8960C"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Fondo de tarjeta -->
+  <rect width="200" height="200" rx="38" fill="url(#tg)"/>
+
+  <!-- Banda magnética superior -->
+  <rect x="0" y="36" width="200" height="28" fill="rgba(0,0,0,0.45)"/>
+
+  <!-- Chip EMV (dorado) -->
+  <rect x="22" y="86" width="46" height="36" rx="6" fill="url(#chipg)"/>
+  <!-- Líneas del chip -->
+  <line x1="22" y1="104" x2="68" y2="104" stroke="#8B6000" stroke-width="1.5"/>
+  <line x1="45" y1="86"  x2="45" y2="122" stroke="#8B6000" stroke-width="1.5"/>
+  <rect x="30" y="92"  width="14" height="10" rx="2" fill="#B8860B" opacity="0.5"/>
+  <rect x="50" y="92"  width="14" height="10" rx="2" fill="#B8860B" opacity="0.5"/>
+  <rect x="30" y="108" width="14" height="10" rx="2" fill="#B8860B" opacity="0.5"/>
+  <rect x="50" y="108" width="14" height="10" rx="2" fill="#B8860B" opacity="0.5"/>
+
+  <!-- Número de tarjeta (puntos) -->
+  <g fill="rgba(255,255,255,0.7)" transform="translate(22,148)">
+    <circle cx="0"  cy="0" r="4"/><circle cx="12" cy="0" r="4"/>
+    <circle cx="24" cy="0" r="4"/><circle cx="36" cy="0" r="4"/>
+    <circle cx="56" cy="0" r="4"/><circle cx="68" cy="0" r="4"/>
+    <circle cx="80" cy="0" r="4"/><circle cx="92" cy="0" r="4"/>
+  </g>
+
+  <!-- Dos círculos estilo Mastercard (derecha) -->
+  <circle cx="148" cy="104" r="26" fill="#EF4444" opacity="0.88"/>
+  <circle cx="168" cy="104" r="26" fill="#F97316" opacity="0.80"/>
+  <!-- Intersección más brillante -->
+  <path d="M158 82 Q164 91 164 104 Q164 117 158 126 Q152 117 152 104 Q152 91 158 82"
+        fill="#FBBF24" opacity="0.45"/>
+</svg>
