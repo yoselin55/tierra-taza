@@ -174,11 +174,17 @@ document.addEventListener('DOMContentLoaded', function() {
       window.location.href = href;
     });
 
-    /* Limpiar estado al restaurar desde bfcache */
+    /* Resetear opacidad antes de que bfcache guarde la pagina */
+    window.addEventListener('pagehide', function () {
+      document.body.style.opacity = '';
+      document.body.style.transition = '';
+    });
+
+    /* Restaurar si bfcache devuelve una pagina con estado viejo */
     window.addEventListener('pageshow', function (e) {
       if (e.persisted) {
-        document.body.style.opacity = '1';
-        document.body.style.transition = 'none';
+        document.body.style.opacity = '';
+        document.body.style.transition = '';
         document.querySelectorAll('.reveal').forEach(function (el) {
           el.classList.add('visible');
         });
