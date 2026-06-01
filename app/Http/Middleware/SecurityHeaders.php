@@ -48,6 +48,9 @@ class SecurityHeaders
             $response->headers->set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
         }
 
+        // Deshabilitar bfcache para evitar pantalla negra al presionar atras
+        $response->headers->set('Cache-Control', 'no-store');
+
         // Elimina la cabecera que revela el servidor/tecnología
         $response->headers->remove('X-Powered-By');
         $response->headers->remove('Server');
