@@ -1,4 +1,5 @@
 /* Tierra y Taza — app.js  v3.2 */
+document.documentElement.classList.add('js');
 
 function getCsrf() {
   const m = document.querySelector('meta[name="csrf-token"]');

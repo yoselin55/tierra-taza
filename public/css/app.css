@@ -1117,9 +1117,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ── REVEAL ANIMACIÓN ───────────────────────────────────────── */
-.reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
-.reveal.up   { transform: translateY(28px); }
-.reveal.left { transform: translateX(-28px); }
+.reveal { transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
+.js .reveal { opacity: 0; transform: translateY(28px); }
+.js .reveal.up   { transform: translateY(28px); }
+.js .reveal.left { transform: translateX(-28px); }
 .reveal.visible { opacity: 1 !important; transform: none !important; }
 
 /* ── BADGES ──────────────────────────────────────────────────── */
@@ -3849,9 +3850,11 @@ body::after {
 
 /* Enhanced reveal with spring feel */
 .reveal {
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+}
+.js .reveal {
   opacity: 0;
   transform: translateY(28px);
-  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
 }
 .reveal.visible { opacity: 1 !important; transform: none !important; }
 
