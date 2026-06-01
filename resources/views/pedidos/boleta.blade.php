@@ -419,7 +419,7 @@
       <i class="bi bi-printer"></i> Imprimir
     </button>
     @if($pedido->pago && $pedido->pago->estado === 'completado')
-      <a href="{{ route('pedidos.comprobante', $pedido) }}" target="_blank"
+      <a href="{{ route('pedidos.comprobante', $pedido) }}"
          class="btn-ghost-tt" style="gap:0.4rem;padding:0.55rem 1.1rem;color:var(--c-green)">
         <i class="bi bi-file-earmark-check"></i> Comprobante oficial
       </a>
