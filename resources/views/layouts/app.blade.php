@@ -15,9 +15,6 @@
 
 @stack('splash')
 
-<!-- LOADER -->
-<div class="page-loader"><div class="spin-ring"></div></div>
-
 <!-- NAVBAR -->
 <nav class="navbar-tierra" id="mainNavbar">
   <div class="container">

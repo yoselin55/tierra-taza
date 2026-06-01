@@ -111,12 +111,6 @@ document.addEventListener('click', function(e) {
 /* ── DOM READY ──────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', function() {
 
-  /* Loader */
-  window.addEventListener('load', function() {
-    const l = document.querySelector('.page-loader');
-    if (l) setTimeout(function() { l.classList.add('gone'); }, 300);
-  });
-
   /* Dark / Light theme */
   const root = document.documentElement;
   const saved = localStorage.getItem('tt-theme') || 'dark';
@@ -179,13 +173,6 @@ document.addEventListener('DOMContentLoaded', function() {
       window.location.href = href;
     });
 
-    /* Restaurar si la pagina viene del bfcache (seguro) */
-    window.addEventListener('pageshow', function (e) {
-      if (e.persisted) {
-        const l = document.querySelector('.page-loader');
-        if (l) l.classList.add('gone');
-      }
-    });
   })();
 
   /* Cerrar menu movil al pasar a desktop */
