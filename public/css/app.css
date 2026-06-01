@@ -1117,11 +1117,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ── REVEAL ANIMACIÓN ───────────────────────────────────────── */
-.reveal { transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
-.js .reveal { opacity: 0; transform: translateY(28px); }
-.js .reveal.up   { transform: translateY(28px); }
-.js .reveal.left { transform: translateX(-28px); }
-.reveal.visible { opacity: 1 !important; transform: none !important; }
+.reveal { transition: transform 0.7s var(--ease); }
+.js .reveal { transform: translateY(20px); }
+.js .reveal.left { transform: translateX(-20px); }
+.reveal.visible { transform: none !important; }
 
 /* ── BADGES ──────────────────────────────────────────────────── */
 .badge-tt {
@@ -3850,13 +3849,12 @@ body::after {
 
 /* Enhanced reveal with spring feel */
 .reveal {
-  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+  transition: transform 0.7s var(--ease);
 }
 .js .reveal {
-  opacity: 0;
-  transform: translateY(28px);
+  transform: translateY(20px);
 }
-.reveal.visible { opacity: 1 !important; transform: none !important; }
+.reveal.visible { transform: none !important; }
 
 /* Stagger delays */
 .reveal[data-delay="1"] { transition-delay: 0.08s; }
