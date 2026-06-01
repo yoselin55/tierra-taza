@@ -180,6 +180,16 @@ document.addEventListener('DOMContentLoaded', function() {
       document.body.style.opacity = '0';
       setTimeout(function () { window.location.href = href; }, 230);
     });
+
+    /* Restaurar opacidad cuando el browser vuelve via bfcache */
+    window.addEventListener('pageshow', function (e) {
+      if (e.persisted) {
+        document.body.style.transition = '';
+        document.body.style.opacity = '1';
+        const l = document.querySelector('.page-loader');
+        if (l) l.classList.add('gone');
+      }
+    });
   })();
 
   /* Carrusel categorías home */
