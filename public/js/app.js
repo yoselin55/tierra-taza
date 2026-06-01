@@ -174,6 +174,17 @@ document.addEventListener('DOMContentLoaded', function() {
       window.location.href = href;
     });
 
+    /* Limpiar estado al restaurar desde bfcache */
+    window.addEventListener('pageshow', function (e) {
+      if (e.persisted) {
+        document.body.style.opacity = '1';
+        document.body.style.transition = 'none';
+        document.querySelectorAll('.reveal').forEach(function (el) {
+          el.classList.add('visible');
+        });
+      }
+    });
+
   })();
 
   /* Cerrar menu movil al pasar a desktop */
