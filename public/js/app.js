@@ -176,22 +176,12 @@ document.addEventListener('DOMContentLoaded', function() {
       if (a.hasAttribute('data-bs-toggle') || a.hasAttribute('data-bs-dismiss') || a.closest('.dropdown-menu')) return;
       if (a.closest('form')) return;
       e.preventDefault();
-      document.body.style.transition = 'opacity 0.22s ease';
-      document.body.style.opacity = '0';
-      setTimeout(function () { window.location.href = href; }, 230);
+      window.location.href = href;
     });
 
-    /* Resetear opacidad antes de que la pagina entre al bfcache */
-    window.addEventListener('pagehide', function () {
-      document.body.style.transition = '';
-      document.body.style.opacity = '1';
-    });
-
-    /* Seguro adicional: restaurar si la pagina viene del bfcache */
+    /* Restaurar si la pagina viene del bfcache (seguro) */
     window.addEventListener('pageshow', function (e) {
       if (e.persisted) {
-        document.body.style.transition = '';
-        document.body.style.opacity = '1';
         const l = document.querySelector('.page-loader');
         if (l) l.classList.add('gone');
       }
