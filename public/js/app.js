@@ -181,7 +181,13 @@ document.addEventListener('DOMContentLoaded', function() {
       setTimeout(function () { window.location.href = href; }, 230);
     });
 
-    /* Restaurar opacidad cuando el browser vuelve via bfcache */
+    /* Resetear opacidad antes de que la pagina entre al bfcache */
+    window.addEventListener('pagehide', function () {
+      document.body.style.transition = '';
+      document.body.style.opacity = '1';
+    });
+
+    /* Seguro adicional: restaurar si la pagina viene del bfcache */
     window.addEventListener('pageshow', function (e) {
       if (e.persisted) {
         document.body.style.transition = '';
@@ -191,6 +197,18 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   })();
+
+  /* Cerrar menu movil al pasar a desktop */
+  window.addEventListener('resize', function () {
+    if (window.innerWidth >= 992) {
+      var mobileNav = document.getElementById('mobileNav');
+      if (mobileNav && mobileNav.classList.contains('show')) {
+        var bsCollapse = bootstrap.Collapse.getInstance(mobileNav);
+        if (bsCollapse) bsCollapse.hide();
+        else mobileNav.classList.remove('show');
+      }
+    }
+  }, { passive: true });
 
   /* Carrusel categorías home */
   const cards = Array.from(document.querySelectorAll('.cat-card'));
