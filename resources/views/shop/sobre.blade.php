@@ -40,10 +40,10 @@
     </div>
     <div class="row g-4 reveal-stagger">
       @foreach([
-        ['bi-tree-fill','Sostenibilidad','Trabajamos directamente con pequeños agricultores peruanos bajo comercio justo y precios dignos.'],
-        ['bi-droplet-half','Calidad','Cada lote es analizado en nuestra sala de catación antes de llegar a tu taza.'],
-        ['bi-mortarboard-fill','Formación','Capacitamos a nuestro equipo en técnicas de barismo de clase mundial.'],
-        ['bi-heart-fill','Comunidad','Somos un espacio de encuentro, trabajo y cultura cafetera en Lima.'],
+        ['tree-fill','Sostenibilidad','Trabajamos directamente con pequeños agricultores peruanos bajo comercio justo y precios dignos.'],
+        ['droplet-half','Calidad','Cada lote es analizado en nuestra sala de catación antes de llegar a tu taza.'],
+        ['mortarboard-fill','Formación','Capacitamos a nuestro equipo en técnicas de barismo de clase mundial.'],
+        ['heart-fill','Comunidad','Somos un espacio de encuentro, trabajo y cultura cafetera en Lima.'],
       ] as [$ico,$tit,$desc])
         <div class="col-sm-6 col-lg-3">
           <div class="about-valor-card">
@@ -62,10 +62,10 @@
   <div class="container">
     <div class="about-proceso-grid reveal-stagger">
       @foreach([
-        ['bi-geo-alt-fill','Origen','Seleccionamos granos de los mejores valles cafetaleros del Perú.'],
-        ['bi-sun-fill','Tostado','Tostamos en pequeños lotes para preservar cada nota aromática.'],
-        ['bi-cup-hot-fill','Preparación','Nuestros baristas preparan cada bebida con técnica y pasión.'],
-        ['bi-emoji-smile-fill','Experiencia','Te ofrecemos un momento único en cada visita.'],
+        ['geo-alt-fill','Origen','Seleccionamos granos de los mejores valles cafetaleros del Perú.'],
+        ['sun-fill','Tostado','Tostamos en pequeños lotes para preservar cada nota aromática.'],
+        ['cup-hot-fill','Preparación','Nuestros baristas preparan cada bebida con técnica y pasión.'],
+        ['star-fill','Experiencia','Te ofrecemos un momento único en cada visita.'],
       ] as [$ico,$tit,$desc])
         <div class="about-proceso-item">
           <div class="about-proceso-ico"><i class="bi bi-{{ $ico }}"></i></div>
