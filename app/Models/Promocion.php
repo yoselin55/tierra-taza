@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Promocion extends Model
 {
+    protected $table = 'promociones';
+
     protected $fillable = ['nombre', 'descripcion', 'color', 'activa', 'fecha_inicio', 'fecha_fin'];
 
     protected $casts = [
