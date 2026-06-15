@@ -1,245 +1,271 @@
-# Tierra y Taza — Plataforma Web para Cafeteria Artesanal
+<div align="center">
 
-**Tierra y Taza** es un sistema web completo construido en **Laravel 11** para una cafeteria artesanal peruana. Este proyecto fue desarrollado como pieza de portafolio para demostrar habilidades full-stack: backend robusto con PHP/Laravel, panel de administracion multi-rol, diseno premium con dark/light mode y CSS personalizado sin dependencias de Node.js.
+# Tierra y Taza
 
-> Stack: **Laravel 11** · **PHP 8.2** · **MySQL** · **Bootstrap 5.3** · **CSS custom** · Sin Node.js ni Webpack
+### Plataforma Web para Cafetería Artesanal Peruana
+
+[![Laravel](https://img.shields.io/badge/Laravel-11-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com)
+[![PHP](https://img.shields.io/badge/PHP-8.2-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://php.net)
+[![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://mysql.com)
+[![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white)](https://getbootstrap.com)
+
+[![Demo en vivo](https://img.shields.io/badge/DEMO%20EN%20VIVO-pink--pig--204029.hostingersite.com-D4A84B?style=for-the-badge)](https://pink-pig-204029.hostingersite.com)
+
+</div>
 
 ---
 
-## Demo en Vivo
+Sistema web **full-stack** construido en Laravel 11 para la gestión completa de una cafetería artesanal: tienda online, panel administrativo multi-rol, reservas, pedidos en tiempo real y reportes. Desarrollado como proyecto de portafolio para demostrar dominio de arquitectura MVC, diseño premium con CSS puro y despliegue en producción.
 
-**Sitio:** [https://pink-pig-204029.hostingersite.com](https://pink-pig-204029.hostingersite.com)
+---
 
-| Rol demo | Email | Contrasena |
+## Acceso a la Demo
+
+| Rol | Email | Contraseña |
 |---|---|---|
-| Admin General | general@tierraytaza.pe | General1234 |
-| Cajero | cajero@tierraytaza.pe | Cajero1234 |
-| Barista | barista@tierraytaza.pe | Barista1234 |
-| Coord. Delivery | delivery@tierraytaza.pe | Delivery1234 |
-| Cliente | cliente@demo.pe | Cliente1234 |
+| Admin General | `general@tierraytaza.pe` | `General1234` |
+| Cajero | `cajero@tierraytaza.pe` | `Cajero1234` |
+| Barista | `barista@tierraytaza.pe` | `Barista1234` |
+| Coord. Delivery | `delivery@tierraytaza.pe` | `Delivery1234` |
+| Cliente | `cliente@demo.pe` | `Cliente1234` |
 
 ---
 
-## Que demuestra este proyecto
+## Stack Tecnológico
 
-- **Arquitectura MVC limpia** con Laravel 11: controllers, models, middlewares, seeders y migraciones organizados
-- **Sistema de roles real** con 6 niveles de acceso controlados via middleware (`CheckRole`)
-- **E-commerce funcional**: carrito con AJAX, checkout, historial de pedidos, descarga de boletas en PDF
-- **Panel de administracion** completo: CRUD de productos, gestion de pedidos por estado, validacion de pagos, reportes diarios/mensuales/anuales
-- **Reservas con mapa interactivo**: mesas y espacios coworking con disponibilidad en tiempo real
-- **Seguridad implementada**: CSRF, XSS escaping, SQL injection via Eloquent ORM, headers de seguridad HTTP, HSTS
-- **Diseno premium**: dark/light mode, glassmorphism, animaciones reveal con CSS puro, tipografia dual (Inter + Playfair Display)
-- **Sin build tools**: todo el frontend via CDN y CSS/JS estatico — facil de mantener y desplegar
+| Capa | Tecnología |
+|---|---|
+| Backend | Laravel 11 · PHP 8.2 · Eloquent ORM |
+| Base de datos | MySQL 8 — 10 migraciones, seeders completos |
+| Frontend | Bootstrap 5.3 · Bootstrap Icons · CSS custom (~5100 líneas) |
+| Autenticación | Laravel Auth · Middleware `CheckRole` por rol |
+| Deploy | Hostinger Business · SSH · Git pull workflow |
+| Sin build tools | Sin Node.js · Sin Webpack · Sin Vite — solo CDN + archivos estáticos |
 
 ---
 
 ## Funcionalidades
 
-**Vista cliente:**
-- Catalogo con filtros por categoria y paginacion
-- Detalle de producto con galeria y resenas
-- Carrito gestionado via AJAX (sin recargar pagina)
-- Checkout con opcion delivery o recojo en tienda
-- Historial de pedidos con barra de progreso por estado
-- Descarga de boleta en formato imprimible
+### Vista Cliente
+
+- Catálogo con filtros por categoría y paginación
+- Detalle de producto con galería y reseñas con calificación
+- **Ofertas del Día** con precio tachado y badge de descuento
+- Carrito gestionado por AJAX (sin recargar la página)
+- Checkout con opción delivery o recojo en tienda
+- **Seguimiento de pedido en tiempo real** — la barra de progreso y el estado se actualizan automáticamente cada 7 segundos sin refrescar
+- **Campana de notificaciones** en el navbar que muestra el estado activo de cada pedido
+- Historial de pedidos con descarga de boleta en formato imprimible
 - Reporte de incidencias sobre pedidos
-- Reservas de mesas y coworking desde mapa interactivo
-- Perfil de usuario con foto y datos editables
-- Modo oscuro / modo claro con persistencia en localStorage
+- Reservas de mesas y espacios coworking desde mapa interactivo
+- Perfil de usuario con foto editable
+- Dark mode / Light mode con persistencia en `localStorage`
 
-**Panel admin (segun rol):**
-- Dashboard con metricas del dia
-- CRUD completo de productos con imagen y stock
-- Gestion de pedidos: cambiar estado, ver detalle
-- Validacion de pagos con visualizacion de comprobante
-- Control de reservas y liberacion de espacios vencidos
-- Gestion de incidencias con respuesta al cliente
-- Reportes de ventas (diario, mensual, anual) exportables
+### Panel Administrativo (según rol)
+
+- Dashboard con métricas del día: ventas, pedidos, pagos pendientes
+- CRUD completo de productos con imagen, stock, categoría y **sección de ofertas** (nombre, precio rebajado, fecha límite)
+- **Notificaciones por función**: cada rol recibe alertas solo de lo que le corresponde
+  - Cajero → nuevo pedido llega
+  - Barista → solo cuando el cajero valida el pago
+  - Coord. Delivery → solo cuando el barista marca el pedido listo
+  - Admin General → recibe todas las fases
+- Gestión de pedidos: cambiar estado con flujo definido
+- Validación de pagos con visualización del comprobante subido
+- Control de reservas y liberación de espacios vencidos
+- Gestión de incidencias con respuesta al cliente
+- Reportes de ventas (diario, mensual, anual)
 - Control de inventario con alertas de stock bajo
-- Gestion de usuarios y asignacion de roles
-- Notificaciones en tiempo real via polling
+- Gestión de usuarios y asignación de roles
 
 ---
 
-## Instalacion Local
+## Roles y Flujo de Trabajo
 
-```bash
-# 1. Clonar el repositorio
-git clone https://github.com/TU_USUARIO/tierra-taza-laravel.git
-cd tierra-taza-laravel
-
-# 2. Instalar dependencias PHP
-composer install
-
-# 3. Copiar variables de entorno
-cp .env.example .env
-
-# 4. Generar clave de aplicacion
-php artisan key:generate
-
-# 5. Configurar base de datos en .env
-# DB_DATABASE=tierra_taza
-# DB_USERNAME=root
-# DB_PASSWORD=tu_password
-
-# 6. Crear tablas y datos de prueba
-php artisan migrate --seed
-
-# 7. Enlazar storage para imagenes subidas
-php artisan storage:link
-
-# 8. Iniciar servidor
-php artisan serve
+```
+Cliente hace pedido
+      │
+      ▼
+  [CAJERO] ─── valida pago ──────────────────────────────► Admin General
+      │                                                    (ve todo)
+      ▼
+  [BARISTA] ─── prepara y marca "listo" ─────────────────►
+      │
+      ▼
+  [COORD. DELIVERY] ─── despacha y entrega ──────────────►
+      │
+      ▼
+  Cliente recibe actualización automática en "Mis Pedidos"
 ```
 
-Abrir: **http://localhost:8000**
-
-> La base de datos se crea completamente desde las migraciones y seeders. No se incluye ningun archivo `.sql` — basta con `migrate --seed`.
-
----
-
-## Deploy en Hostinger
-
-### Prerequisitos
-- Hosting con PHP 8.2+ y MySQL (plan Business o superior recomendado para SSH)
-- Acceso a hPanel de Hostinger
-
-### Paso 1 — Subir archivos
-
-Opcion A — via Git (si tienes SSH en Hostinger):
-```bash
-ssh usuario@tu-servidor.hostinger.com
-cd public_html
-git clone https://github.com/TU_USUARIO/tierra-taza-laravel.git .
-composer install --no-dev --optimize-autoloader
-```
-
-Opcion B — via FTP/Administrador de archivos:
-- Subir todos los archivos **excepto** la carpeta `vendor/`
-- Luego ejecutar `composer install` desde el terminal de Hostinger
-
-### Paso 2 — Configurar base de datos
-
-1. En hPanel ir a **Bases de datos** → **MySQL** → crear base de datos
-2. Anotar: nombre de BD, usuario, contrasena y host
-
-### Paso 3 — Configurar .env en produccion
-
-Crear el archivo `.env` en la raiz del proyecto con:
-```env
-APP_NAME="Tierra y Taza"
-APP_ENV=production
-APP_DEBUG=false
-APP_KEY=      ← ejecutar: php artisan key:generate
-APP_URL=https://tu-dominio.com
-
-DB_CONNECTION=mysql
-DB_HOST=localhost
-DB_PORT=3306
-DB_DATABASE=nombre_bd_hostinger
-DB_USERNAME=usuario_bd_hostinger
-DB_PASSWORD=contrasena_bd_hostinger
-
-CACHE_DRIVER=file
-SESSION_DRIVER=file
-QUEUE_CONNECTION=sync
-```
-
-### Paso 4 — Migraciones y storage
-
-```bash
-php artisan migrate --seed
-php artisan storage:link
-php artisan config:cache
-php artisan route:cache
-```
-
-### Paso 5 — Apuntar el dominio
-
-En hPanel → **Dominios** → configurar el **Document Root** apuntando a `public_html/tierra-taza-laravel/public` (la carpeta `public/` de Laravel, no la raiz del proyecto).
-
----
-
-## Seguridad Implementada
-
-| Proteccion | Mecanismo |
+| Rol | Acceso |
 |---|---|
-| CSRF | Token automatico en todos los formularios (Laravel) |
-| XSS | Escape HTML automatico con `{{ }}` en Blade |
+| `cliente` | Catálogo · Carrito · Pedidos · Reservas · Reseñas · Perfil |
+| `cajero` | Pagos · Incidencias · Reportes · Reservas |
+| `barista` | Pedidos → En preparación / Listo |
+| `coordinador_delivery` | Pedidos → En camino / Entregado |
+| `admin_sistema` | CRUD Productos · Inventario · Usuarios · Operaciones |
+| `admin_general` | Control total — todos los módulos |
+
+---
+
+## Diseño — Design System
+
+El frontend fue construido completamente a mano sin frameworks de diseño. El archivo `public/css/app.css` (~5100 líneas) implementa un sistema de diseño propio:
+
+```css
+--c-gold:        #D4A84B   /* Dorado principal */
+--c-amber:       #C8963C   /* Dorado oscuro / gradientes */
+--c-surface:     #1C1A16   /* Fondo de cards */
+--c-dark:        #0D0C0A   /* Fondo base */
+--radius:        14px
+--ease:          cubic-bezier(0.22, 1, 0.36, 1)
+```
+
+**Técnicas implementadas:**
+- Dark / Light mode con `data-theme` en `<html>` y variables CSS
+- Glassmorphism (`backdrop-filter: blur`) en cards, modales y notificaciones
+- Animaciones con `IntersectionObserver`: reveal, stagger, fade-up
+- Efecto shimmer animado en gradiente dorado para títulos
+- Ripple effect en botones (CSS + JS puro)
+- Parallax en hero section
+- Grain texture overlay para profundidad
+
+---
+
+## Seguridad
+
+| Protección | Implementación |
+|---|---|
+| CSRF | Token automático en todos los formularios (Laravel) |
+| XSS | Escape automático con `{{ }}` en Blade |
 | SQL Injection | Eloquent ORM con queries parametrizadas |
 | Clickjacking | `X-Frame-Options: SAMEORIGIN` |
 | MIME Sniffing | `X-Content-Type-Options: nosniff` |
-| Content Security Policy | Bloquea scripts de dominios no autorizados |
-| Referrer leaks | `Referrer-Policy: strict-origin-when-cross-origin` |
 | HSTS | `Strict-Transport-Security` activo en HTTPS |
-| Control de acceso | Middleware `CheckRole` por rol en rutas admin |
-| Sesiones expiradas | Redirige al login en vez de pantalla blanca (419) |
-| Contrasenas | Hashing bcrypt via Laravel Auth |
+| BFCache | `Cache-Control: no-store` para evitar pantalla negra al volver |
+| Control de acceso | Middleware `CheckRole` — cada ruta admin valida el rol |
+| Contraseñas | Hashing bcrypt vía Laravel Auth |
+| Sesiones 419 | Redirige al login con mensaje claro en vez de pantalla blanca |
 
 ---
 
-## Roles y Permisos
+## Instalación Local
 
-| Rol | Accesos |
-|---|---|
-| `cliente` | Catalogo, carrito, pedidos, reservas, resenas, perfil |
-| `barista` | Pedidos → marcar "En preparacion" / "Preparado" |
-| `coordinador_delivery` | Pedidos → marcar "En camino" / "Entregado" |
-| `cajero` | Reportes, pagos, incidencias, pedidos y reservas |
-| `admin_sistema` | CRUD productos, inventario, usuarios + operaciones |
-| `admin_general` | Control total: todos los modulos + recursos y configuracion |
+```bash
+# 1. Clonar
+git clone https://github.com/yoselin55/tierra-taza.git
+cd tierra-taza
+
+# 2. Dependencias PHP
+composer install
+
+# 3. Variables de entorno
+cp .env.example .env
+php artisan key:generate
+
+# 4. Configurar base de datos en .env
+# DB_DATABASE=tierra_taza
+# DB_USERNAME=root
+# DB_PASSWORD=
+
+# 5. Crear tablas y datos de prueba
+php artisan migrate --seed
+
+# 6. Storage para imágenes
+php artisan storage:link
+
+# 7. Iniciar
+php artisan serve
+```
+
+Abrir **http://localhost:8000**
+
+> No se requiere Node.js. No hay paso de build. El frontend carga directamente desde `public/css/app.css` y `public/js/app.js`.
 
 ---
 
 ## Estructura del Proyecto
 
 ```
-tierra-taza-laravel/
+tierra-taza/
 ├── app/
 │   ├── Http/
 │   │   ├── Controllers/
-│   │   │   ├── Admin/          ← Panel admin (8 controllers por modulo)
-│   │   │   ├── Auth/           ← Login y registro
-│   │   │   ├── CarritoController.php
-│   │   │   ├── CatalogoController.php
-│   │   │   ├── PedidoController.php
-│   │   │   ├── PerfilController.php
-│   │   │   └── ReservaController.php
+│   │   │   ├── Admin/               ← 8 controllers (productos, pedidos, pagos, reportes...)
+│   │   │   ├── Auth/                ← Login, registro, selección de rol
+│   │   │   ├── PedidoController.php ← Checkout + polling de estados en tiempo real
+│   │   │   ├── ReservaController.php
+│   │   │   └── HomeController.php   ← Home con ofertas del día
 │   │   └── Middleware/
-│   │       ├── CheckRole.php         ← Control de acceso por rol
-│   │       └── SecurityHeaders.php   ← Headers HTTP de seguridad
+│   │       ├── CheckRole.php        ← Acceso por rol (barista, cajero, etc.)
+│   │       └── SecurityHeaders.php  ← Headers HTTP + anti-bfcache
 │   └── Models/
-│       ├── User · Producto · Pedido · DetallePedido
-│       ├── Pago · Resena · Recurso · Reserva
-│       └── Incidencia · Configuracion
+│       ├── Producto.php   ← estaEnOferta(), getPrecioFinalAttribute()
+│       ├── Pedido.php     ← estado_label, estado_badge, estado_paso
+│       └── User.php       ← esCliente(), esAdmin(), getRolLabelAttribute()
 ├── database/
-│   ├── migrations/   ← 9 migraciones (schema completo)
-│   └── seeders/      ← Datos de prueba + usuarios demo
+│   ├── migrations/        ← 10 migraciones (schema completo)
+│   └── seeders/           ← Usuarios demo + productos + categorías
 ├── public/
-│   ├── css/app.css   ← Design system (~2200 lineas, dark/light mode)
-│   ├── js/app.js     ← AJAX carrito, dark toggle, animaciones
-│   └── images/       ← Assets estaticos
+│   ├── css/app.css        ← Design system (~5100 líneas)
+│   └── js/app.js          ← AJAX carrito · ripple · polling · dark toggle
 ├── resources/views/
-│   ├── layouts/      ← app.blade.php + admin.blade.php
-│   ├── admin/        ← Dashboard, productos, pedidos, reportes, pagos
-│   ├── shop/         ← Home, catalogo, carrito
-│   ├── pedidos/      ← Checkout, historial, boleta, comprobante
-│   ├── reservas/     ← Mapa interactivo
-│   └── legal/        ← Terminos, privacidad, cookies
-└── routes/web.php    ← 66 rutas organizadas por seccion
+│   ├── layouts/           ← app.blade.php + admin.blade.php
+│   ├── admin/             ← Dashboard, productos, pedidos, pagos, reportes
+│   ├── shop/              ← Home (ofertas), catálogo, carrito
+│   ├── pedidos/           ← Checkout, mis pedidos (polling), boleta
+│   └── reservas/          ← Mapa interactivo con disponibilidad
+└── routes/web.php         ← ~70 rutas organizadas por sección y middleware
 ```
 
 ---
 
-## Diseno — Design System
+## Deploy en Hostinger
 
-- **Dark Mode Premium** como modo por defecto, toggle a modo claro
-- **Glassmorphism**: fondos translucidos con blur
-- **Paleta**: Gold `#C8963C`, Verde `#00D68F`, Rojo `#FF3D71`, Base `#0D0D0D`
-- **Tipografia**: Inter (UI) + Playfair Display (titulos)
-- **Animaciones**: scroll reveal, parallax hero, hover scale, stagger
-- **Sin dependencias de build**: Bootstrap 5.3 + Bootstrap Icons via CDN
+### Requisitos
+- PHP 8.2+ y MySQL (plan Business o superior — necesario para SSH)
+- Acceso al hPanel
+
+### Pasos
+
+```bash
+# En tu PC
+git add . && git commit -m "mensaje" && git push origin main
+
+# En el servidor (via SSH)
+ssh -p 65002 usuario@servidor
+cd ~/tierra-taza
+git pull origin main
+php artisan migrate --force
+php artisan view:clear && php artisan cache:clear
+```
+
+### .env en producción
+
+```env
+APP_ENV=production
+APP_DEBUG=false
+APP_URL=https://tu-dominio.com
+
+DB_CONNECTION=mysql
+DB_HOST=localhost
+DB_DATABASE=nombre_bd
+DB_USERNAME=usuario_bd
+DB_PASSWORD=contraseña_bd
+
+CACHE_DRIVER=file
+SESSION_DRIVER=file
+```
+
+> `exec()` está deshabilitado en Hostinger — el storage link debe crearse manualmente con `ln -s` desde SSH.
 
 ---
 
-*Desarrollado por Yoselin Flores — 2026*
+<div align="center">
+
+Desarrollado por **Yoselin Flores** · 2026
+
+[![GitHub](https://img.shields.io/badge/GitHub-yoselin55-181717?style=flat-square&logo=github)](https://github.com/yoselin55)
+
+</div>
