@@ -78,6 +78,10 @@
            class="adm-link {{ request()->routeIs('admin.productos*') ? 'activo' : '' }}">
           <i class="bi bi-box-seam"></i> Productos
         </a>
+        <a href="{{ route('admin.promociones.index') }}"
+           class="adm-link {{ request()->routeIs('admin.promociones*') ? 'activo' : '' }}">
+          <i class="bi bi-tag-fill"></i> Promociones
+        </a>
         <div class="adm-nav-section">Sistema</div>
         <a href="{{ route('admin.inventario') }}"
            class="adm-link {{ request()->routeIs('admin.inventario*') ? 'activo' : '' }}">
@@ -94,6 +98,10 @@
         <a href="{{ route('admin.productos.index') }}"
            class="adm-link {{ request()->routeIs('admin.productos*') ? 'activo' : '' }}">
           <i class="bi bi-box-seam"></i> Productos
+        </a>
+        <a href="{{ route('admin.promociones.index') }}"
+           class="adm-link {{ request()->routeIs('admin.promociones*') ? 'activo' : '' }}">
+          <i class="bi bi-tag-fill"></i> Promociones
         </a>
         <div class="adm-nav-section">Operaciones</div>
         <a href="{{ route('admin.pedidos.index') }}"

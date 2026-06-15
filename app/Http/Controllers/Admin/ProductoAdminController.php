@@ -79,9 +79,11 @@ class ProductoAdminController extends Controller
             'nombre_oferta' => 'nullable|string|max:150',
             'precio_oferta' => 'nullable|numeric|min:0',
             'oferta_hasta'  => 'nullable|date',
+            'promocion_id'  => 'nullable|exists:promociones,id',
         ]);
 
         $validated['oferta_activa'] = $request->boolean('oferta_activa');
+        $validated['promocion_id']  = $request->filled('promocion_id') ? $request->promocion_id : null;
 
         return $validated;
     }

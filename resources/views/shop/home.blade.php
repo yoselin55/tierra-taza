@@ -126,101 +126,49 @@ window.addEventListener('load',()=>{
   </div>
 </section>
 
-<!-- OFERTAS DEL DÍA -->
-@if($ofertas->isNotEmpty())
+<!-- PROMOCIONES -->
+@if($promociones->isNotEmpty())
 <section class="section" style="background:var(--c-surface)">
   <div class="container">
     <div class="text-center mb-5 reveal">
-      <div class="section-label"><i class="bi bi-tag-fill me-1" style="color:var(--c-gold)"></i>Promociones</div>
-      <h2 class="section-title">Ofertas del <em>Día</em></h2>
+      <div class="section-label"><i class="bi bi-tag-fill me-1" style="color:var(--c-gold)"></i>Ofertas Especiales</div>
+      <h2 class="section-title">Promociones <em>Activas</em></h2>
     </div>
 
-    @if($ofertas->count() === 1)
-      @php $oferta = $ofertas->first(); @endphp
-      <div class="row align-items-center g-5">
-        <div class="col-lg-6 reveal left">
-          <div style="border-radius:var(--radius-lg);overflow:hidden;position:relative">
-            <img src="{{ $oferta->imagen_url }}" alt="{{ $oferta->nombre }}"
-                 class="cafe-dia-img" style="width:100%;object-fit:cover">
-            <div style="position:absolute;top:1.5rem;left:1.5rem;background:rgba(0,0,0,0.75);backdrop-filter:blur(10px);border:1px solid rgba(200,150,60,0.5);border-radius:50px;padding:0.4rem 1rem;color:var(--c-gold);font-size:0.8rem;font-weight:700">
-              <i class="bi bi-tag-fill me-1"></i> {{ $oferta->nombre_oferta ?? 'Oferta Especial' }}
+    <div class="row g-4 justify-content-center">
+      @foreach($promociones as $promo)
+        @php
+          $colClass = $promociones->count() === 1 ? 'col-sm-10 col-md-6 col-lg-5'
+                    : ($promociones->count() === 2 ? 'col-sm-6 col-lg-5'
+                    : 'col-sm-6 col-lg-4');
+        @endphp
+        <div class="{{ $colClass }} reveal">
+          <div class="promo-card h-100" style="--promo-color:{{ $promo->color }}">
+            <div class="promo-card-badge">
+              <i class="bi bi-tag-fill"></i>
+              {{ $promo->productos_activos_count }} producto{{ $promo->productos_activos_count !== 1 ? 's' : '' }}
             </div>
-            @if($oferta->oferta_hasta)
-              <div style="position:absolute;bottom:1.5rem;left:1.5rem;background:rgba(200,150,60,0.15);backdrop-filter:blur(10px);border:1px solid rgba(200,150,60,0.3);border-radius:50px;padding:0.35rem 0.9rem;color:var(--c-gold);font-size:0.75rem;font-weight:600">
-                <i class="bi bi-clock me-1"></i> Hasta el {{ $oferta->oferta_hasta->format('d/m/Y') }}
-              </div>
-            @endif
-          </div>
-        </div>
-        <div class="col-lg-6 reveal">
-          <div class="section-label" style="color:var(--c-gold)">{{ $oferta->nombre_oferta ?? 'Oferta Especial' }}</div>
-          <h2 class="section-title mb-3">{{ $oferta->nombre }}</h2>
-          <p style="color:var(--c-muted);line-height:1.8;margin-bottom:1.5rem">{{ $oferta->descripcion }}</p>
-          <div class="d-flex align-items-center gap-4 mb-4">
-            <div>
-              <div style="font-size:2.2rem;font-weight:900;color:var(--c-gold);line-height:1">
-                S/ {{ number_format($oferta->precio_oferta, 2) }}
-              </div>
-              <div style="font-size:0.9rem;color:var(--c-muted);text-decoration:line-through;margin-top:0.2rem">
-                Antes: S/ {{ number_format($oferta->precio, 2) }}
-              </div>
-            </div>
-            <div style="background:rgba(200,150,60,0.15);border:1px solid rgba(200,150,60,0.4);border-radius:8px;padding:0.4rem 0.8rem;color:var(--c-gold);font-weight:700;font-size:0.9rem">
-              -{{ round((1 - $oferta->precio_oferta / $oferta->precio) * 100) }}% OFF
-            </div>
-          </div>
-          <div class="d-flex gap-3 flex-wrap">
-            <a href="{{ route('catalogo.show', $oferta) }}" class="btn-primary-tt">
-              <i class="bi bi-eye"></i> Ver Detalle
-            </a>
-            @if($oferta->hayStock())
-              <button class="btn-ghost-tt js-add-cart" data-url="{{ route('carrito.agregar', $oferta) }}">
-                <i class="bi bi-bag-plus"></i> Agregar al Carrito
-              </button>
-            @endif
-          </div>
-        </div>
-      </div>
-    @else
-      <div class="row g-4">
-        @foreach($ofertas as $oferta)
-          <div class="col-sm-6 col-lg-3 reveal">
-            <div class="prod-card h-100" style="position:relative">
-              <div style="position:absolute;top:0.75rem;left:0.75rem;z-index:2;background:var(--c-gold);color:#000;font-size:0.7rem;font-weight:800;padding:0.25rem 0.65rem;border-radius:50px">
-                -{{ round((1 - $oferta->precio_oferta / $oferta->precio) * 100) }}% OFF
-              </div>
-              <div class="prod-img-wrap">
-                <img src="{{ $oferta->imagen_url }}" alt="{{ $oferta->nombre }}">
-                <span class="prod-cat-badge">{{ $oferta->categoria_label }}</span>
-              </div>
-              <div class="prod-body">
-                <div class="prod-name">{{ $oferta->nombre }}</div>
-                @if($oferta->nombre_oferta)
-                  <div style="font-size:0.75rem;color:var(--c-gold);font-weight:600;margin-bottom:0.25rem">
-                    <i class="bi bi-tag-fill me-1"></i>{{ $oferta->nombre_oferta }}
-                  </div>
-                @endif
-                <div class="prod-footer">
-                  <div>
-                    <div class="prod-price">S/ {{ number_format($oferta->precio_oferta, 2) }}</div>
-                    <div style="font-size:0.75rem;color:var(--c-muted);text-decoration:line-through">
-                      S/ {{ number_format($oferta->precio, 2) }}
-                    </div>
-                  </div>
-                  @if($oferta->hayStock())
-                    <button class="btn-add js-add-cart" data-url="{{ route('carrito.agregar', $oferta) }}">
-                      <i class="bi bi-bag-plus"></i> Agregar
-                    </button>
-                  @else
-                    <span class="badge-tt badge-danger">Agotado</span>
-                  @endif
+            <div class="promo-card-body">
+              <h3 class="promo-card-title">{{ $promo->nombre }}</h3>
+              @if($promo->descripcion)
+                <p class="promo-card-desc">{{ $promo->descripcion }}</p>
+              @endif
+              @if($promo->fecha_fin)
+                <div class="promo-card-date">
+                  <i class="bi bi-clock-fill"></i>
+                  Hasta el {{ $promo->fecha_fin->format('d \d\e F') }}
                 </div>
-              </div>
+              @endif
+            </div>
+            <div class="promo-card-footer">
+              <a href="{{ route('promociones.show', $promo) }}" class="btn-primary-tt w-100" style="text-align:center;justify-content:center">
+                <i class="bi bi-arrow-right-circle-fill"></i> Ver ofertas
+              </a>
             </div>
           </div>
-        @endforeach
-      </div>
-    @endif
+        </div>
+      @endforeach
+    </div>
   </div>
 </section>
 @endif

@@ -5950,4 +5950,88 @@ h1, h2, h3, h4, h5, h6 {
   .pedido-actions { width: 100%; justify-content: flex-end; }
 }
 
+/* ── Promociones: cards en home ──────────────────────────── */
+.promo-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--c-surface-2, var(--glass));
+  border: 1px solid rgba(255,255,255,0.07);
+  border-top: 3px solid var(--promo-color, var(--c-gold));
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: transform var(--t), box-shadow var(--t);
+  position: relative;
+}
+.promo-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, rgba(255,255,255,0.03) 0%, transparent 60%);
+  pointer-events: none;
+}
+.promo-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.35), 0 0 0 1px var(--promo-color, var(--c-gold));
+}
+.promo-card-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: color-mix(in srgb, var(--promo-color, var(--c-gold)) 15%, transparent);
+  color: var(--promo-color, var(--c-gold));
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.3rem 0.8rem;
+  border-radius: 99px;
+  margin: 1.25rem 1.25rem 0;
+  width: fit-content;
+  letter-spacing: 0.3px;
+}
+.promo-card-body {
+  flex: 1;
+  padding: 1rem 1.25rem 1.25rem;
+}
+.promo-card-title {
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--c-text);
+  margin: 0 0 0.5rem;
+  line-height: 1.25;
+}
+.promo-card-desc {
+  font-size: 0.85rem;
+  color: var(--c-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+.promo-card-date {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.9rem;
+  font-size: 0.76rem;
+  color: var(--c-muted);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 99px;
+  padding: 0.25rem 0.75rem;
+}
+.promo-card-date i { color: var(--promo-color, var(--c-gold)); }
+.promo-card-footer {
+  padding: 0 1.25rem 1.25rem;
+}
+[data-theme="light"] .promo-card {
+  background: #fff;
+  border-color: rgba(0,0,0,0.07);
+  border-top-color: var(--promo-color, var(--c-gold));
+}
+[data-theme="light"] .promo-card:hover {
+  box-shadow: 0 12px 32px rgba(0,0,0,0.12), 0 0 0 1px var(--promo-color, var(--c-gold));
+}
+[data-theme="light"] .promo-card-date {
+  background: rgba(0,0,0,0.03);
+  border-color: rgba(0,0,0,0.08);
+}
+
 /* Fin del rediseño premium 2026 */

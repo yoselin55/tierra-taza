@@ -98,6 +98,20 @@
                          value="{{ old('oferta_hasta', isset($producto->oferta_hasta) ? $producto->oferta_hasta->format('Y-m-d') : '') }}">
                   <small style="color:var(--c-muted);font-size:0.72rem">Dejar vacío si no tiene fecha límite</small>
                 </div>
+                <div class="col-12">
+                  <label class="tt-label">Promoción / Categoría de oferta</label>
+                  @php $promociones = \App\Models\Promocion::orderBy('nombre')->get(); @endphp
+                  <select name="promocion_id" class="tt-input">
+                    <option value="">— Sin promoción —</option>
+                    @foreach($promociones as $promo)
+                      <option value="{{ $promo->id }}"
+                        {{ old('promocion_id', $producto->promocion_id) == $promo->id ? 'selected' : '' }}>
+                        {{ $promo->nombre }}{{ $promo->activa ? '' : ' (inactiva)' }}
+                      </option>
+                    @endforeach
+                  </select>
+                  <small style="color:var(--c-muted);font-size:0.72rem">Asigna este producto a una categoría de promoción</small>
+                </div>
               </div>
             </div>
           </div>

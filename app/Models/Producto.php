@@ -13,7 +13,13 @@ class Producto extends Model
         'nombre', 'descripcion', 'precio', 'categoria',
         'imagen', 'stock', 'estado', 'rating',
         'oferta_activa', 'nombre_oferta', 'precio_oferta', 'oferta_hasta',
+        'promocion_id',
     ];
+
+    public function promocion()
+    {
+        return $this->belongsTo(Promocion::class);
+    }
 
     protected $casts = [
         'precio'        => 'decimal:2',

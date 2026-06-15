@@ -18,11 +18,14 @@ use App\Http\Controllers\Admin\ReporteController;
 use App\Http\Controllers\Admin\PagoAdminController;
 use App\Http\Controllers\Admin\IncidenciaAdminController;
 use App\Http\Controllers\Admin\NotifController;
+use App\Http\Controllers\Admin\PromocionAdminController;
+use App\Http\Controllers\PromocionController;
 
 // ── Públicas ──────────────────────────────────────────────────────────────────
 Route::get('/',              [HomeController::class, 'index'])->name('home');
 Route::get('/sobre-nosotros',[HomeController::class, 'sobre'])->name('sobre');
 Route::get('/ubicacion',     [HomeController::class, 'ubicacion'])->name('ubicacion');
+Route::get('/promociones/{promocion}', [PromocionController::class, 'show'])->name('promociones.show');
 Route::get('/terminos-y-condiciones',  fn() => view('legal.terminos'))->name('terminos');
 Route::get('/aviso-legal',             fn() => view('legal.aviso'))->name('aviso.legal');
 Route::get('/politica-de-privacidad',  fn() => view('legal.privacidad'))->name('privacidad');
@@ -87,9 +90,11 @@ Route::middleware(['auth', 'role:barista,cajero,coordinador_delivery,admin_siste
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/notifs/poll', [NotifController::class, 'poll'])->name('notifs.poll');
 
-    // Productos — admin_sistema y admin_general gestionan el catálogo
+    // Productos y Promociones — admin_sistema y admin_general
     Route::middleware('role:admin_sistema,admin_general')->group(function () {
         Route::resource('productos', ProductoAdminController::class);
+        Route::resource('promociones', PromocionAdminController::class);
+        Route::patch('/promociones/{promocion}/toggle', [PromocionAdminController::class, 'toggleActiva'])->name('promociones.toggle');
     });
 
     // Pedidos — todos los roles operativos
