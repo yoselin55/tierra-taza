@@ -135,44 +135,43 @@ window.addEventListener('load',()=>{
       <h2 class="section-title">Promociones <em>Activas</em></h2>
     </div>
 
-    <div class="row g-4 justify-content-center">
+    <div class="row g-3 justify-content-center">
       @foreach($promociones as $promo)
         @php
-          $colClass = $promociones->count() === 1 ? 'col-sm-10 col-md-7 col-lg-6'
-                    : ($promociones->count() === 2 ? 'col-sm-6 col-lg-5'
-                    : 'col-sm-6 col-lg-4');
-          $imgUrl = $promo->productos->first()?->imagen_url;
+          $colClass = $promociones->count() === 1 ? 'col-12 col-md-8 col-lg-6'
+                    : ($promociones->count() === 2 ? 'col-12 col-sm-6'
+                    : 'col-12 col-sm-6 col-lg-4');
+          $primerProducto = $promo->productos->first();
         @endphp
         <div class="{{ $colClass }} reveal">
-          <div class="promo-card h-100" style="--promo-color:{{ $promo->color }}">
-            @if($imgUrl)
-              <div class="promo-card-img-wrap">
-                <img src="{{ $imgUrl }}" alt="{{ $promo->nombre }}" class="promo-card-img">
-                <div class="promo-card-img-overlay"></div>
-                <div class="promo-card-img-badge">
-                  <i class="bi bi-tag-fill"></i>
-                  {{ $promo->productos_activos_count }} producto{{ $promo->productos_activos_count !== 1 ? 's' : '' }} en oferta
-                </div>
+          <a href="{{ route('promociones.show', $promo) }}" class="promo-mk-card" style="--promo-color:{{ $promo->color }}">
+            <!-- Header -->
+            <div class="promo-mk-header">
+              <span class="promo-mk-title">{{ $promo->nombre }}</span>
+              <span class="promo-mk-link">Ver más <i class="bi bi-chevron-right"></i></span>
+            </div>
+            <!-- Imagen -->
+            <div class="promo-mk-img-wrap">
+              @if($primerProducto)
+                <img src="{{ $primerProducto->imagen_url }}" alt="{{ $promo->nombre }}" class="promo-mk-img">
+              @else
+                <div class="promo-mk-img-placeholder"><i class="bi bi-tag-fill"></i></div>
+              @endif
+              <div class="promo-mk-img-grad"></div>
+            </div>
+            <!-- Footer info -->
+            <div class="promo-mk-footer">
+              <div class="promo-mk-count">
+                <i class="bi bi-bag-fill"></i>
+                {{ $promo->productos_activos_count }} producto{{ $promo->productos_activos_count !== 1 ? 's' : '' }} en oferta
               </div>
-            @endif
-            <div class="promo-card-body">
-              <h3 class="promo-card-title">{{ $promo->nombre }}</h3>
-              @if($promo->descripcion)
-                <p class="promo-card-desc">{{ $promo->descripcion }}</p>
-              @endif
               @if($promo->fecha_fin)
-                <div class="promo-card-date">
-                  <i class="bi bi-clock-fill"></i>
-                  Hasta el {{ $promo->fecha_fin->format('d \d\e F') }}
+                <div class="promo-mk-date">
+                  <i class="bi bi-clock-fill"></i> Hasta {{ $promo->fecha_fin->format('d/m') }}
                 </div>
               @endif
             </div>
-            <div class="promo-card-footer">
-              <a href="{{ route('promociones.show', $promo) }}" class="btn-primary-tt w-100" style="text-align:center;justify-content:center">
-                <i class="bi bi-arrow-right-circle-fill"></i> Ver ofertas
-              </a>
-            </div>
-          </div>
+          </a>
         </div>
       @endforeach
     </div>
