@@ -1,50 +1,81 @@
 @extends('layouts.app')
 @section('title','Sobre Nosotros')
 @section('content')
-<div class="container section">
-  <!-- Hero about -->
-  <div class="about-hero mb-5 reveal">
-    <img src="https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=800&q=80" alt="Tierra y Taza" class="about-img">
-    <div class="about-content">
-      <div class="section-label">Nuestra Historia</div>
-      <h1 class="section-title mb-4">Café con <em>alma</em> peruana</h1>
-      <p style="color:var(--c-muted);line-height:1.9;margin-bottom:1.5rem">
+
+{{-- ══ HERO NOSOTROS ═══════════════════════════════════════════ --}}
+<section class="about-hero-section reveal">
+  <div class="about-hero-img-wrap">
+    <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=1200&q=85" alt="Tierra y Taza" class="about-hero-img">
+    <div class="about-hero-overlay"></div>
+  </div>
+  <div class="container about-hero-content-wrap">
+    <div class="about-hero-content">
+      <div class="section-label mb-3">Nuestra Historia</div>
+      <h1 class="section-title mb-4" style="font-size:clamp(2.4rem,5vw,4rem)">Café con <em>alma</em><br>peruana</h1>
+      <div style="width:48px;height:3px;background:linear-gradient(90deg,var(--c-gold),var(--c-amber));border-radius:2px;margin-bottom:1.75rem"></div>
+      <p style="color:rgba(255,255,255,0.8);line-height:1.9;margin-bottom:1.25rem;max-width:520px;font-size:1rem">
         Tierra y Taza nació en 2018 de la pasión de dos jóvenes baristas peruanos que viajaron por los valles cafetaleros de Cajamarca, San Martín y Chanchamayo buscando los mejores granos del país.
       </p>
-      <p style="color:var(--c-muted);line-height:1.9;margin-bottom:2rem">
+      <p style="color:rgba(255,255,255,0.65);line-height:1.9;max-width:520px;font-size:0.95rem;margin-bottom:2.5rem">
         Hoy somos un referente de la cultura cafetera en Lima, ofreciendo no solo café excepcional sino también un espacio de trabajo, estudio y conversación.
       </p>
-      <div class="row g-3">
+      <div class="about-stats-grid">
         @foreach([['2018','Año de fundación'],['15+','Variedades de café'],['2k+','Clientes satisfechos'],['100%','Origen peruano']] as [$n,$l])
-          <div class="col-6">
-            <div style="font-size:1.8rem;font-weight:900;color:var(--c-gold)">{{ $n }}</div>
-            <div style="color:var(--c-muted);font-size:0.8rem">{{ $l }}</div>
+          <div class="about-stat-item">
+            <div class="about-stat-num">{{ $n }}</div>
+            <div class="about-stat-label">{{ $l }}</div>
           </div>
         @endforeach
       </div>
     </div>
   </div>
+</section>
 
-  <!-- Valores -->
-  <div class="text-center mb-5 reveal">
-    <div class="section-label">Nuestros Valores</div>
-    <h2 class="section-title">Lo que nos hace <em>únicos</em></h2>
-  </div>
-  <div class="row g-4">
-    @foreach([
-      ['bi bi-tree-fill','Sostenibilidad','Trabajamos directamente con pequeños agricultores peruanos bajo comercio justo.'],
-      ['bi bi-droplet-half','Calidad','Cada lote es analizado en nuestra sala de catación antes de llegar a tu taza.'],
-      ['bi bi-mortarboard-fill','Formación','Capacitamos a nuestro equipo en técnicas de barismo de clase mundial.'],
-      ['bi bi-heart-fill','Comunidad','Somos un espacio de encuentro, trabajo y cultura cafetera en Lima.'],
-    ] as [$ico,$tit,$desc])
-      <div class="col-sm-6 col-lg-3 reveal">
-        <div class="glass-card p-4 h-100">
-          <div style="font-size:2rem;color:var(--c-gold);margin-bottom:1rem"><i class="{{ $ico }}"></i></div>
-          <h5 style="font-weight:700;margin-bottom:0.5rem">{{ $tit }}</h5>
-          <p style="color:var(--c-muted);font-size:0.875rem;line-height:1.7">{{ $desc }}</p>
+{{-- ══ VALORES ════════════════════════════════════════════════ --}}
+<section class="section">
+  <div class="container">
+    <div class="text-center mb-5 reveal">
+      <div class="section-label">Nuestros Valores</div>
+      <h2 class="section-title">Lo que nos hace <em>únicos</em></h2>
+    </div>
+    <div class="row g-4 reveal-stagger">
+      @foreach([
+        ['bi-tree-fill','Sostenibilidad','Trabajamos directamente con pequeños agricultores peruanos bajo comercio justo y precios dignos.'],
+        ['bi-droplet-half','Calidad','Cada lote es analizado en nuestra sala de catación antes de llegar a tu taza.'],
+        ['bi-mortarboard-fill','Formación','Capacitamos a nuestro equipo en técnicas de barismo de clase mundial.'],
+        ['bi-heart-fill','Comunidad','Somos un espacio de encuentro, trabajo y cultura cafetera en Lima.'],
+      ] as [$ico,$tit,$desc])
+        <div class="col-sm-6 col-lg-3">
+          <div class="about-valor-card">
+            <div class="about-valor-ico"><i class="bi bi-{{ $ico }}"></i></div>
+            <h5 class="about-valor-title">{{ $tit }}</h5>
+            <p class="about-valor-desc">{{ $desc }}</p>
+          </div>
         </div>
-      </div>
-    @endforeach
+      @endforeach
+    </div>
   </div>
-</div>
+</section>
+
+{{-- ══ EQUIPO / PROCESO ════════════════════════════════════════ --}}
+<section class="section-sm" style="background:var(--c-surface);border-top:1px solid var(--c-border);border-bottom:1px solid var(--c-border)">
+  <div class="container">
+    <div class="about-proceso-grid reveal-stagger">
+      @foreach([
+        ['bi-geo-alt-fill','Origen','Seleccionamos granos de los mejores valles cafetaleros del Perú.'],
+        ['bi-sun-fill','Tostado','Tostamos en pequeños lotes para preservar cada nota aromática.'],
+        ['bi-cup-hot-fill','Preparación','Nuestros baristas preparan cada bebida con técnica y pasión.'],
+        ['bi-emoji-smile-fill','Experiencia','Te ofrecemos un momento único en cada visita.'],
+      ] as [$ico,$tit,$desc])
+        <div class="about-proceso-item">
+          <div class="about-proceso-ico"><i class="bi bi-{{ $ico }}"></i></div>
+          <div class="about-proceso-line"></div>
+          <h6 class="about-proceso-title">{{ $tit }}</h6>
+          <p class="about-proceso-desc">{{ $desc }}</p>
+        </div>
+      @endforeach
+    </div>
+  </div>
+</section>
+
 @endsection
