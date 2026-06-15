@@ -389,20 +389,4 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  /* ── User notif panel toggle ─────────────────────────────── */
-  const notifBtn   = document.getElementById('userNotifBtn');
-  const notifPanel = document.getElementById('userNotifPanel');
-  if (notifBtn && notifPanel) {
-    notifBtn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      const open = notifPanel.style.display !== 'none';
-      notifPanel.style.display = open ? 'none' : 'block';
-    });
-    document.addEventListener('click', function(e) {
-      if (!notifBtn.contains(e.target) && !notifPanel.contains(e.target)) {
-        notifPanel.style.display = 'none';
-      }
-    });
-  }
-
 }); /* fin DOMContentLoaded */
