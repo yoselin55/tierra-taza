@@ -303,22 +303,42 @@
     cancelado:      '#ef4444',
   };
 
+  // IDs vistos por el usuario en esta sesión
+  var vistosIds = JSON.parse(sessionStorage.getItem('tt_notif_vistos') || '[]');
+
+  function saveVistos() {
+    sessionStorage.setItem('tt_notif_vistos', JSON.stringify(vistosIds));
+  }
+
+  function dismissNotif(id) {
+    vistosIds.push(id);
+    saveVistos();
+    notifList = notifList.filter(function (n) { return n.id !== id; });
+    renderPanel();
+  }
+
   function renderPanel() {
-    if (notifList.length === 0) {
-      body.innerHTML = '<div style="padding:1rem;text-align:center;color:var(--c-muted);font-size:0.8rem">Sin pedidos activos</div>';
+    // Filtrar los que el usuario ya vio/descartó
+    var visibles = notifList.filter(function (p) { return vistosIds.indexOf(p.id) === -1; });
+
+    if (visibles.length === 0) {
+      body.innerHTML = '<div style="padding:1.25rem;text-align:center;color:var(--c-muted);font-size:0.8rem">Sin pedidos activos</div>';
       badge.style.display = 'none';
       return;
     }
     badge.style.display = 'inline-block';
-    badge.textContent = notifList.length;
-    body.innerHTML = notifList.map(function (p) {
+    badge.textContent = visibles.length;
+    body.innerHTML = visibles.map(function (p) {
       var color = ESTADO_COLOR[p.estado] || 'var(--c-gold)';
       return '<div style="padding:0.65rem 1rem;border-bottom:1px solid var(--c-border);display:flex;justify-content:space-between;align-items:center;gap:0.5rem">'
-        + '<div>'
+        + '<div style="flex:1;min-width:0">'
           + '<div style="font-size:0.8rem;font-weight:600">Pedido #' + p.id + '</div>'
           + '<div style="font-size:0.72rem;color:' + color + ';margin-top:2px"><i class="bi bi-circle-fill" style="font-size:0.45rem;vertical-align:middle;margin-right:4px"></i>' + (p.label || ESTADO_LABELS[p.estado] || p.estado) + '</div>'
         + '</div>'
-        + '<a href="{{ route("pedidos.mis_pedidos") }}" style="font-size:0.7rem;color:var(--c-gold);white-space:nowrap">Ver</a>'
+        + '<div style="display:flex;align-items:center;gap:0.5rem;flex-shrink:0">'
+          + '<a href="{{ route("pedidos.mis_pedidos") }}" style="font-size:0.7rem;color:var(--c-gold);white-space:nowrap">Ver</a>'
+          + '<button onclick="dismissNotif(' + p.id + ')" style="background:none;border:none;color:var(--c-muted);cursor:pointer;font-size:0.85rem;padding:0;line-height:1" title="Descartar"><i class="bi bi-x"></i></button>'
+        + '</div>'
       + '</div>';
     }).join('');
   }
@@ -333,6 +353,9 @@
         var existing = notifList.find(function (n) { return n.id === p.id; });
         if (existing) {
           if (existing.estado !== p.estado) {
+            // El estado cambió — quitar de vistos para que vuelva a aparecer
+            vistosIds = vistosIds.filter(function (id) { return id !== p.id; });
+            saveVistos();
             existing.estado = p.estado;
             existing.label  = p.label;
             window.toast && window.toast('Pedido #' + p.id + ': ' + p.label, 'info');
@@ -342,9 +365,12 @@
         }
       });
 
-      // Quitar pedidos que ya no están en la lista activa
+      // Quitar pedidos entregados/cancelados
       var idsActivos = pedidos.map(function (p) { return p.id; });
       notifList = notifList.filter(function (n) { return idsActivos.indexOf(n.id) !== -1; });
+      // Limpiar vistos de pedidos que ya no existen
+      vistosIds = vistosIds.filter(function (id) { return idsActivos.indexOf(id) !== -1; });
+      saveVistos();
 
       renderPanel();
     } catch (e) {}
@@ -353,6 +379,8 @@
   window.toggleUserNotif = function () {
     panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
   };
+
+  window.dismissNotif = dismissNotif;
 
   document.addEventListener('click', function (e) {
     var wrap = document.getElementById('userNotifWrap');
