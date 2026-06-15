@@ -5954,8 +5954,8 @@ h1, h2, h3, h4, h5, h6 {
 .promo-mk-card {
   display: flex;
   flex-direction: column;
-  background: #1e1b16;
-  border: 1px solid rgba(212,168,75,0.25);
+  background: #2e2a22;
+  border: 2px solid rgba(212,168,75,0.45);
   border-radius: 16px;
   overflow: hidden;
   cursor: pointer;
@@ -5963,7 +5963,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .promo-mk-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 16px 40px rgba(0,0,0,0.5), 0 0 0 1px var(--promo-color, #D4A84B);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.5), 0 0 0 2px var(--promo-color, #D4A84B);
 }
 .promo-mk-header {
   display: flex;
@@ -5986,12 +5986,12 @@ h1, h2, h3, h4, h5, h6 {
   gap: 0.25rem;
   font-size: 0.8rem;
   font-weight: 700;
-  color: var(--promo-color, #D4A84B);
-  text-decoration: none;
+  color: #D4A84B !important;
+  text-decoration: none !important;
   white-space: nowrap;
   flex-shrink: 0;
 }
-.promo-mk-link:hover { color: var(--promo-color, #D4A84B); text-decoration: none; }
+.promo-mk-link:hover { color: #D4A84B !important; text-decoration: none !important; }
 .promo-mk-img-wrap {
   position: relative;
   height: 240px;
