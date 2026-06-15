@@ -23,7 +23,6 @@ class HomeController extends Controller
             ->with(['productos' => function ($q) {
                 $q->where('estado', true)->where('oferta_activa', true)->orderByDesc('rating')->limit(1);
             }])
-            ->having('productos_activos_count', '>', 0)
             ->latest()
             ->get();
 
