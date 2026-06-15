@@ -138,16 +138,23 @@ window.addEventListener('load',()=>{
     <div class="row g-4 justify-content-center">
       @foreach($promociones as $promo)
         @php
-          $colClass = $promociones->count() === 1 ? 'col-sm-10 col-md-6 col-lg-5'
+          $colClass = $promociones->count() === 1 ? 'col-sm-10 col-md-7 col-lg-6'
                     : ($promociones->count() === 2 ? 'col-sm-6 col-lg-5'
                     : 'col-sm-6 col-lg-4');
+          $imgUrl = $promo->productos->first()?->imagen_url;
         @endphp
         <div class="{{ $colClass }} reveal">
           <div class="promo-card h-100" style="--promo-color:{{ $promo->color }}">
-            <div class="promo-card-badge">
-              <i class="bi bi-tag-fill"></i>
-              {{ $promo->productos_activos_count }} producto{{ $promo->productos_activos_count !== 1 ? 's' : '' }}
-            </div>
+            @if($imgUrl)
+              <div class="promo-card-img-wrap">
+                <img src="{{ $imgUrl }}" alt="{{ $promo->nombre }}" class="promo-card-img">
+                <div class="promo-card-img-overlay"></div>
+                <div class="promo-card-img-badge">
+                  <i class="bi bi-tag-fill"></i>
+                  {{ $promo->productos_activos_count }} producto{{ $promo->productos_activos_count !== 1 ? 's' : '' }} en oferta
+                </div>
+              </div>
+            @endif
             <div class="promo-card-body">
               <h3 class="promo-card-title">{{ $promo->nombre }}</h3>
               @if($promo->descripcion)

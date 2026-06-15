@@ -43,9 +43,8 @@
                   <span class="prod-price" style="color:{{ $promocion->color }}">S/ {{ number_format($producto->precio_oferta, 2) }}</span>
                   <span class="precio-tachado">S/ {{ number_format($producto->precio, 2) }}</span>
                 </div>
-                <form action="{{ route('carrito.agregar') }}" method="POST" class="mt-2">
+                <form action="{{ route('carrito.agregar', $producto) }}" method="POST" class="mt-2">
                   @csrf
-                  <input type="hidden" name="producto_id" value="{{ $producto->id }}">
                   <input type="hidden" name="cantidad" value="1">
                   <button type="submit" class="btn-primary-tt w-100" style="padding:0.55rem 1rem;font-size:0.85rem">
                     <i class="bi bi-bag-plus-fill"></i> Agregar
