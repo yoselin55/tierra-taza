@@ -68,14 +68,21 @@ class ProductoAdminController extends Controller
 
     private function validar(Request $request, $id = null): array
     {
-        return $request->validate([
-            'nombre'      => 'required|string|max:150',
-            'descripcion' => 'nullable|string',
-            'precio'      => 'required|numeric|min:0',
-            'categoria'   => 'required|in:calientes,frias,postres,cafe_grano',
-            'stock'       => 'required|integer|min:0',
-            'estado'      => 'boolean',
-            'imagen'      => 'nullable|image|max:2048',
+        $validated = $request->validate([
+            'nombre'        => 'required|string|max:150',
+            'descripcion'   => 'nullable|string',
+            'precio'        => 'required|numeric|min:0',
+            'categoria'     => 'required|in:calientes,frias,postres,cafe_grano',
+            'stock'         => 'required|integer|min:0',
+            'estado'        => 'boolean',
+            'imagen'        => 'nullable|image|max:2048',
+            'nombre_oferta' => 'nullable|string|max:150',
+            'precio_oferta' => 'nullable|numeric|min:0',
+            'oferta_hasta'  => 'nullable|date',
         ]);
+
+        $validated['oferta_activa'] = $request->boolean('oferta_activa');
+
+        return $validated;
     }
 }

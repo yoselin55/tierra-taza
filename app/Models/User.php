@@ -96,11 +96,11 @@ class User extends Authenticatable
     public function getRolLabelAttribute(): string
     {
         return match($this->rol) {
-            'barista'              => 'Barista / Cocinero',
+            'barista'              => 'Barista',
             'cajero'               => 'Cajero',
             'coordinador_delivery' => 'Coord. Delivery',
-            'admin_sistema'        => 'Admin del Sistema',
-            'admin_general'        => 'Admin General',
+            'admin_sistema'        => 'Adm. Sistema',
+            'admin_general'        => 'Adm. General',
             default                => 'Cliente',
         };
     }

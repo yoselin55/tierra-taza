@@ -3,12 +3,17 @@
 @section('content')
 <div class="container py-5">
 
-  <div class="d-flex align-items-center gap-3 mb-4 flex-wrap">
-    <a href="{{ route('pedidos.mis_pedidos') }}" class="btn-ghost-tt" style="padding:0.4rem 0.8rem">
+  <div class="page-header-tt reveal">
+    <a href="{{ route('pedidos.mis_pedidos') }}" class="btn-ghost-tt" style="padding:0.4rem 0.8rem;flex-shrink:0">
       <i class="bi bi-arrow-left"></i>
     </a>
-    <h2 style="font-weight:700;margin:0">Pedido <span style="color:var(--c-gold)">#{{ $pedido->id }}</span></h2>
-    <span class="badge-tt {{ $pedido->estado_badge }}">{{ $pedido->estado_label }}</span>
+    <div class="page-header-icon">
+      <i class="bi bi-bag-fill"></i>
+    </div>
+    <div>
+      <h1 style="margin:0;font-size:1.5rem">Pedido <span style="color:var(--c-gold)">#{{ $pedido->id }}</span></h1>
+      <span class="badge-tt {{ $pedido->estado_badge }} mt-1">{{ $pedido->estado_label }}</span>
+    </div>
   </div>
 
   @if(session('success'))
@@ -54,7 +59,7 @@
           @if($pedido->pago->estado === 'completado')
             <div class="mt-3">
               <a href="{{ route('pedidos.comprobante', $pedido) }}" target="_blank"
-                 class="btn-add" style="gap:0.5rem;border-color:rgba(34,197,94,0.35);color:#22c55e">
+                 class="btn-primary-tt" style="gap:0.5rem;background:rgba(34,197,94,0.12);border-color:rgba(34,197,94,0.35);color:#22c55e">
                 <i class="bi bi-file-earmark-check"></i> Descargar Comprobante
               </a>
             </div>
@@ -153,8 +158,8 @@
                         placeholder="Cuéntanos qué pasó con tu pedido..." required
                         style="resize:none">{{ old('descripcion') }}</textarea>
             </div>
-            <button type="submit" class="btn-add" style="color:var(--c-gold);border-color:rgba(200,150,60,0.4)">
-              <i class="bi bi-send-fill me-1"></i>Enviar Reclamo
+            <button type="submit" class="btn-primary-tt">
+              <i class="bi bi-send-fill"></i> Enviar Reclamo
             </button>
           </form>
         @else
@@ -182,8 +187,8 @@
           </div>
         </div>
         <div class="divider-gold my-3"></div>
-        <a href="{{ route('pedidos.boleta',$pedido) }}" class="auth-btn-submit" style="font-size:0.875rem">
-          <i class="bi bi-file-earmark-text-fill me-2"></i>Ver Boleta
+        <a href="{{ route('pedidos.boleta',$pedido) }}" class="btn-primary-tt w-100 justify-content-center">
+          <i class="bi bi-file-earmark-text-fill"></i> Ver Boleta
         </a>
       </div>
     </div>

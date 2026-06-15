@@ -8,7 +8,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/app.css') }}?v=2">
   @stack('styles')
 </head>
 <body>
@@ -44,6 +44,30 @@
           <span class="cart-count" style="{{ $cartCount > 0 ? '' : 'display:none' }}">{{ $cartCount }}</span>
         </a>
         @auth
+          @if(auth()->user()->esCliente())
+          <!-- Campana de notificaciones del cliente -->
+          <div style="position:relative" id="userNotifWrap">
+            <button id="userNotifBtn"
+                    style="position:relative;background:transparent;border:none;padding:0.45rem 0.6rem;border-radius:var(--radius);color:var(--c-text);cursor:pointer;transition:background 0.2s"
+                    onmouseenter="this.style.background='var(--c-border)'" onmouseleave="this.style.background='transparent'"
+                    onclick="toggleUserNotif()">
+              <i class="bi bi-bell-fill" style="font-size:1.1rem"></i>
+              <span id="userNotifBadge"
+                    style="display:none;position:absolute;top:2px;right:2px;min-width:16px;height:16px;background:var(--c-gold);color:#000;border-radius:50px;font-size:0.6rem;font-weight:800;line-height:16px;text-align:center;padding:0 3px">0</span>
+            </button>
+            <div id="userNotifPanel"
+                 style="display:none;position:absolute;right:0;top:calc(100% + 8px);width:300px;background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--radius);box-shadow:0 8px 32px rgba(0,0,0,0.4);z-index:9999">
+              <div style="padding:0.75rem 1rem;border-bottom:1px solid var(--c-border);display:flex;justify-content:space-between;align-items:center">
+                <span style="font-weight:700;font-size:0.875rem"><i class="bi bi-bell-fill me-2" style="color:var(--c-gold)"></i>Mis Pedidos</span>
+                <a href="{{ route('pedidos.mis_pedidos') }}" style="font-size:0.75rem;color:var(--c-gold)">Ver todos</a>
+              </div>
+              <div id="userNotifBody" style="max-height:260px;overflow-y:auto;padding:0.5rem 0">
+                <div style="padding:1rem;text-align:center;color:var(--c-muted);font-size:0.8rem">Sin pedidos activos</div>
+              </div>
+            </div>
+          </div>
+          @endif
+
           <div class="dropdown">
             <button class="btn-ghost-tt d-flex align-items-center gap-2"
                     style="padding:0.35rem 0.75rem;font-size:0.85rem" data-bs-toggle="dropdown">
@@ -89,7 +113,7 @@
             </ul>
           </div>
         @else
-          <a href="{{ route('login') }}"    class="btn-ghost-tt login-btn"   style="padding:0.45rem 1rem;font-size:0.85rem"><i class="bi bi-person d-sm-none"></i><span class="btn-login-text">Ingresar</span></a>
+          <a href="{{ route('login') }}"    class="btn-ghost-tt login-btn"   style="padding:0.45rem 1rem;font-size:0.85rem"><i class="bi bi-person d-sm-none"></i><span class="btn-login-text">Iniciar Sesión</span></a>
           <a href="{{ route('register') }}" class="btn-primary-tt btn-register" style="padding:0.45rem 1.2rem;font-size:0.85rem">Registrarse</a>
         @endauth
 
@@ -190,12 +214,12 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('js/app.js') }}?v=2"></script>
 @stack('scripts')
 
 <!-- COOKIE CONSENT BANNER -->
 <div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Aviso de cookies">
-  <div class="cookie-banner-icon">🍪</div>
+  <div class="cookie-banner-icon"><i class="bi bi-cookie"></i></div>
   <div class="cookie-banner-text">
     <strong>Tierra y Taza utiliza cookies para mejorar tu experiencia</strong>
     <p>
@@ -242,5 +266,104 @@
   };
 })();
 </script>
+
+@auth
+@if(auth()->user()->esCliente())
+<script>
+(function () {
+  var btn    = document.getElementById('userNotifBtn');
+  var panel  = document.getElementById('userNotifPanel');
+  var badge  = document.getElementById('userNotifBadge');
+  var body   = document.getElementById('userNotifBody');
+  if (!btn) return;
+
+  var notifList = [];
+
+  var ESTADO_LABELS = {
+    pendiente:      'Pendiente pago',
+    en_preparacion: 'En preparación',
+    casi_listo:     'Casi listo',
+    listo:          'Listo para despacho',
+    recogido:       'Recogido por delivery',
+    en_camino:      'En camino',
+    cerca_destino:  'Cerca al destino',
+    entregado:      'Entregado',
+    cancelado:      'Cancelado',
+  };
+
+  var ESTADO_COLOR = {
+    pendiente:      '#f59e0b',
+    en_preparacion: '#60a5fa',
+    casi_listo:     '#a78bfa',
+    listo:          '#22c55e',
+    recogido:       '#60a5fa',
+    en_camino:      '#60a5fa',
+    cerca_destino:  '#f59e0b',
+    entregado:      '#22c55e',
+    cancelado:      '#ef4444',
+  };
+
+  function renderPanel() {
+    if (notifList.length === 0) {
+      body.innerHTML = '<div style="padding:1rem;text-align:center;color:var(--c-muted);font-size:0.8rem">Sin pedidos activos</div>';
+      badge.style.display = 'none';
+      return;
+    }
+    badge.style.display = 'inline-block';
+    badge.textContent = notifList.length;
+    body.innerHTML = notifList.map(function (p) {
+      var color = ESTADO_COLOR[p.estado] || 'var(--c-gold)';
+      return '<div style="padding:0.65rem 1rem;border-bottom:1px solid var(--c-border);display:flex;justify-content:space-between;align-items:center;gap:0.5rem">'
+        + '<div>'
+          + '<div style="font-size:0.8rem;font-weight:600">Pedido #' + p.id + '</div>'
+          + '<div style="font-size:0.72rem;color:' + color + ';margin-top:2px"><i class="bi bi-circle-fill" style="font-size:0.45rem;vertical-align:middle;margin-right:4px"></i>' + (p.label || ESTADO_LABELS[p.estado] || p.estado) + '</div>'
+        + '</div>'
+        + '<a href="{{ route("pedidos.mis_pedidos") }}" style="font-size:0.7rem;color:var(--c-gold);white-space:nowrap">Ver</a>'
+      + '</div>';
+    }).join('');
+  }
+
+  async function poll() {
+    try {
+      var resp = await fetch('{{ route("pedidos.estados_poll") }}');
+      if (!resp.ok) return;
+      var pedidos = await resp.json();
+
+      pedidos.forEach(function (p) {
+        var existing = notifList.find(function (n) { return n.id === p.id; });
+        if (existing) {
+          if (existing.estado !== p.estado) {
+            existing.estado = p.estado;
+            existing.label  = p.label;
+            window.toast && window.toast('Pedido #' + p.id + ': ' + p.label, 'info');
+          }
+        } else {
+          notifList.push({ id: p.id, estado: p.estado, label: p.label });
+        }
+      });
+
+      // Quitar pedidos que ya no están en la lista activa
+      var idsActivos = pedidos.map(function (p) { return p.id; });
+      notifList = notifList.filter(function (n) { return idsActivos.indexOf(n.id) !== -1; });
+
+      renderPanel();
+    } catch (e) {}
+  }
+
+  window.toggleUserNotif = function () {
+    panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+  };
+
+  document.addEventListener('click', function (e) {
+    var wrap = document.getElementById('userNotifWrap');
+    if (wrap && !wrap.contains(e.target)) panel.style.display = 'none';
+  });
+
+  poll();
+  setInterval(poll, 8000);
+})();
+</script>
+@endif
+@endauth
 </body>
 </html>

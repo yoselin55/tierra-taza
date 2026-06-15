@@ -355,11 +355,11 @@
       @if($pedido->pago)
         <div class="tk-estado" style="color:{{ $pedido->pago->estado === 'completado' ? '#15803d' : ($pedido->pago->estado === 'rechazado' ? '#b91c1c' : '#b45309') }}">
           @if($pedido->pago->estado === 'completado')
-            ✓ Pago Aprobado
+            <i class="bi bi-check-circle-fill me-1"></i> Pago Aprobado
           @elseif($pedido->pago->estado === 'rechazado')
-            ✗ Pago Rechazado
+            <i class="bi bi-x-circle-fill me-1"></i> Pago Rechazado
           @else
-            ⏳ Pendiente de validación
+            <i class="bi bi-hourglass-split me-1"></i> Pendiente de validación
           @endif
         </div>
       @endif
@@ -424,7 +424,7 @@
         <i class="bi bi-file-earmark-check"></i> Comprobante oficial
       </a>
     @endif
-    <a href="{{ route('pedidos.mis_pedidos') }}" class="btn-add" style="gap:0.4rem">
+    <a href="{{ route('pedidos.mis_pedidos') }}" class="btn-primary-tt" style="gap:0.4rem">
       <i class="bi bi-bag"></i> Mis Pedidos
     </a>
     <a href="{{ route('catalogo') }}" class="btn-ghost-tt" style="gap:0.4rem;padding:0.55rem 1.1rem">

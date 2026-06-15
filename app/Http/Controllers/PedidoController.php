@@ -141,6 +141,23 @@ class PedidoController extends Controller
         return view('pedidos.mis_pedidos', compact('pedidos'));
     }
 
+    public function estadosPoll()
+    {
+        $pedidos = auth()->user()->pedidos()
+            ->whereNotIn('estado', ['entregado', 'cancelado'])
+            ->latest()
+            ->get(['id', 'estado'])
+            ->map(fn($p) => [
+                'id'          => $p->id,
+                'estado'      => $p->estado,
+                'label'       => $p->estado_label,
+                'badge'       => $p->estado_badge,
+                'paso'        => $p->estado_paso,
+            ]);
+
+        return response()->json($pedidos);
+    }
+
     public function detalle(Pedido $pedido)
     {
         if ($pedido->user_id !== auth()->id()) {

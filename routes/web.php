@@ -60,6 +60,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/checkout',                      [PedidoController::class, 'checkout'])->name('pedidos.checkout');
     Route::post('/pedidos',                      [PedidoController::class, 'store'])->name('pedidos.store');
     Route::get('/mis-pedidos',                   [PedidoController::class, 'misPedidos'])->name('pedidos.mis_pedidos');
+    Route::get('/mis-pedidos/estados-poll',      [PedidoController::class, 'estadosPoll'])->name('pedidos.estados_poll');
     Route::get('/mis-pedidos/{pedido}',          [PedidoController::class, 'detalle'])->name('pedidos.detalle');
     Route::get('/mis-pedidos/{pedido}/boleta',      [PedidoController::class, 'boleta'])->name('pedidos.boleta');
     Route::get('/mis-pedidos/{pedido}/comprobante', [PedidoController::class, 'comprobante'])->name('pedidos.comprobante');

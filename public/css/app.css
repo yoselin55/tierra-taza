@@ -4390,3 +4390,1388 @@ button:focus-visible {
   .proceso-titulo { font-size: 0.95rem; }
   .proceso-desc   { font-size: 0.75rem; line-height: 1.5; }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   UI/UX REDESIGN v2 — ENHANCEMENTS PREMIUM
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Scrollbar personalizada ─────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(212,168,75,0.35);
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(212,168,75,0.6); }
+
+/* ── Selección de texto ──────────────────────────────────── */
+::selection { background: rgba(212,168,75,0.28); color: var(--c-text); }
+
+/* ── Focus visible global ───────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--c-gold);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* ── Navbar: mejoras de estado activo y hover ───────────── */
+.nav-pill {
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+.nav-pill.active {
+  color: var(--c-gold) !important;
+  font-weight: 700;
+}
+
+/* ── Botones: press / ripple ────────────────────────────── */
+.btn-primary-tt,
+.btn-ghost-tt {
+  will-change: transform;
+}
+.btn-primary-tt:active { transform: scale(0.965); }
+.btn-ghost-tt:active   { transform: scale(0.965); }
+
+/* Ripple al hacer clic */
+.btn-primary-tt,
+.btn-ghost-tt {
+  overflow: hidden;
+}
+.btn-ripple {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  background: rgba(255,255,255,0.22);
+  pointer-events: none;
+  animation: rippleOut 0.55s ease-out forwards;
+}
+@keyframes rippleOut {
+  to { transform: scale(4); opacity: 0; }
+}
+
+/* ── Formularios: glow en focus ─────────────────────────── */
+.form-control,
+.form-select {
+  transition: border-color var(--t), box-shadow var(--t), background var(--t);
+}
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--c-gold) !important;
+  box-shadow: 0 0 0 3px rgba(212,168,75,0.18), 0 1px 4px rgba(0,0,0,0.25) !important;
+  background: var(--c-surface-alt) !important;
+  outline: none;
+}
+.form-control::placeholder { color: var(--c-muted); opacity: 0.7; }
+
+/* Labels de formulario */
+.form-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: var(--c-muted);
+  margin-bottom: 0.4rem;
+}
+
+/* ── Cards del producto: mejoras hover ──────────────────── */
+.prod-card {
+  transition: transform 0.28s var(--ease), box-shadow 0.28s var(--ease), border-color 0.28s var(--ease);
+  border: 1px solid transparent;
+}
+.prod-card:hover {
+  transform: translateY(-6px) scale(1.012);
+  box-shadow: 0 20px 48px rgba(0,0,0,0.38), 0 0 0 1px rgba(212,168,75,0.2);
+  border-color: rgba(212,168,75,0.2);
+}
+[data-theme="light"] .prod-card:hover {
+  box-shadow: 0 16px 40px rgba(0,0,0,0.14), 0 0 0 1px rgba(212,168,75,0.25);
+}
+
+/* ── Badge de oferta en tarjetas ────────────────────────── */
+.oferta-badge {
+  position: absolute;
+  top: 0.65rem;
+  left: 0.65rem;
+  background: linear-gradient(135deg, #e05c2a 0%, #c0392b 100%);
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  padding: 0.28rem 0.55rem;
+  border-radius: 6px;
+  text-transform: uppercase;
+  box-shadow: 0 2px 8px rgba(224,92,42,0.45);
+  z-index: 2;
+  line-height: 1;
+}
+.precio-tachado {
+  text-decoration: line-through;
+  color: var(--c-muted);
+  font-size: 0.82rem;
+  margin-right: 0.3rem;
+}
+.precio-oferta-badge {
+  color: #e05c2a;
+  font-weight: 800;
+}
+[data-theme="light"] .precio-oferta-badge { color: #c0392b; }
+
+/* ── Sección Ofertas del Día ────────────────────────────── */
+.oferta-card-featured {
+  background: var(--glass);
+  backdrop-filter: blur(16px) saturate(1.4);
+  border: 1px solid rgba(212,168,75,0.18);
+  border-radius: calc(var(--radius) + 4px);
+  overflow: hidden;
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+.oferta-card-featured:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 52px rgba(0,0,0,0.35), 0 0 0 1px rgba(212,168,75,0.3);
+}
+.oferta-tag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: linear-gradient(135deg, #e05c2a, #c0392b);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  padding: 0.32rem 0.8rem;
+  border-radius: 99px;
+  text-transform: uppercase;
+  box-shadow: 0 2px 10px rgba(224,92,42,0.4);
+}
+.oferta-precio-original {
+  font-size: 1rem;
+  text-decoration: line-through;
+  color: var(--c-muted);
+}
+.oferta-precio-final {
+  font-size: 1.9rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, var(--c-gold), var(--c-amber));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.1;
+}
+.oferta-hasta-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  color: var(--c-muted);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  padding: 0.3rem 0.65rem;
+}
+[data-theme="light"] .oferta-hasta-tag {
+  background: rgba(0,0,0,0.04);
+  border-color: rgba(0,0,0,0.08);
+}
+
+/* ── Admin panel: mejoras visuales ─────────────────────── */
+.adm-nav-section {
+  opacity: 0.65;
+  letter-spacing: 1.4px;
+}
+.adm-link {
+  transition: background var(--t), color var(--t);
+}
+.adm-link:hover {
+  color: var(--c-gold) !important;
+  background: rgba(212,168,75,0.08);
+}
+.adm-link.activo {
+  color: var(--c-gold) !important;
+  font-weight: 700;
+  background: rgba(212,168,75,0.1);
+}
+.adm-table tbody tr {
+  transition: background var(--t);
+}
+.adm-table tbody tr:hover {
+  background: rgba(212,168,75,0.05);
+}
+.adm-panel {
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+  transition: box-shadow 0.3s var(--ease);
+}
+.adm-panel:hover {
+  box-shadow: 0 8px 36px rgba(0,0,0,0.28);
+}
+[data-theme="light"] .adm-panel {
+  border-color: rgba(0,0,0,0.07);
+  box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+}
+
+/* Admin topbar: rol badge mejorado */
+.adm-topbar .rol-badge-topbar {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(212,168,75,0.12);
+  border: 1px solid rgba(212,168,75,0.25);
+  color: var(--c-gold);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 0.3rem 0.75rem;
+  border-radius: 99px;
+}
+
+/* ── Stat cards del admin: pulse en hover ───────────────── */
+.stat-card {
+  position: relative;
+  overflow: hidden;
+}
+.stat-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(212,168,75,0.06) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s var(--ease);
+  pointer-events: none;
+}
+.stat-card:hover::before { opacity: 1; }
+
+/* ── Notificaciones: campana usuario ────────────────────── */
+#userNotifBtn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--glass);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--c-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background var(--t), border-color var(--t), transform var(--t);
+  position: relative;
+}
+#userNotifBtn:hover {
+  background: rgba(212,168,75,0.12);
+  border-color: rgba(212,168,75,0.3);
+  transform: scale(1.08);
+}
+#userNotifBadge {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  background: #e05c2a;
+  color: #fff;
+  font-size: 0.6rem;
+  font-weight: 800;
+  border-radius: 99px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  box-shadow: 0 2px 6px rgba(224,92,42,0.5);
+  animation: badgePop 0.35s var(--ease) both;
+}
+@keyframes badgePop {
+  from { transform: scale(0); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+@keyframes badgePulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(224,92,42,0.5); }
+  50%       { box-shadow: 0 0 0 5px rgba(224,92,42,0); }
+}
+#userNotifBadge.pulse { animation: badgePulse 1.4s ease infinite; }
+
+#userNotifPanel {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 300px;
+  background: var(--c-surface-alt);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.45);
+  backdrop-filter: blur(20px) saturate(1.3);
+  z-index: 999;
+  overflow: hidden;
+  animation: panelIn 0.22s var(--ease) both;
+}
+@keyframes panelIn {
+  from { opacity: 0; transform: translateY(-8px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+[data-theme="light"] #userNotifPanel {
+  background: #fff;
+  border-color: rgba(0,0,0,0.1);
+  box-shadow: 0 12px 36px rgba(0,0,0,0.16);
+}
+.notif-panel-header {
+  padding: 0.9rem 1rem 0.65rem;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  color: var(--c-muted);
+  text-transform: uppercase;
+}
+[data-theme="light"] .notif-panel-header { border-color: rgba(0,0,0,0.07); }
+.notif-item {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  transition: background var(--t);
+}
+.notif-item:hover { background: rgba(212,168,75,0.06); }
+.notif-item:last-child { border-bottom: none; }
+[data-theme="light"] .notif-item { border-color: rgba(0,0,0,0.05); }
+.notif-item-ico {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(212,168,75,0.12);
+  color: var(--c-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+.notif-item-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--c-text);
+  line-height: 1.35;
+}
+.notif-item-sub {
+  font-size: 0.72rem;
+  color: var(--c-muted);
+  margin-top: 0.1rem;
+  line-height: 1.4;
+}
+
+/* ── Badge de estado en pedidos del cliente ─────────────── */
+.estado-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 99px;
+  font-size: 0.73rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  transition: background 0.4s var(--ease), color 0.4s var(--ease);
+}
+.estado-badge.updated {
+  animation: badgeFlash 0.6s var(--ease);
+}
+@keyframes badgeFlash {
+  0%   { transform: scale(1); }
+  30%  { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+
+/* ── Auth page: polish adicional ────────────────────────── */
+.auth-card {
+  transition: box-shadow 0.35s var(--ease);
+}
+.auth-card:hover {
+  box-shadow: 0 24px 60px rgba(0,0,0,0.35), 0 0 0 1px rgba(212,168,75,0.12);
+}
+[data-theme="light"] .auth-card:hover {
+  box-shadow: 0 16px 40px rgba(0,0,0,0.12), 0 0 0 1px rgba(212,168,75,0.15);
+}
+
+/* ── Rol cards (selección de rol en login) ──────────────── */
+.rol-card {
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), border-color 0.25s var(--ease);
+}
+.rol-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 14px 32px rgba(0,0,0,0.3), 0 0 0 1px rgba(212,168,75,0.25);
+  border-color: rgba(212,168,75,0.35) !important;
+}
+.rol-card .rol-ico {
+  transition: transform 0.3s var(--ease), background 0.3s var(--ease);
+}
+.rol-card:hover .rol-ico {
+  transform: scale(1.1) rotate(-4deg);
+  background: rgba(212,168,75,0.18);
+}
+
+/* ── Modales / offcanvas: glassmorphism mejorado ─────────── */
+.modal-content {
+  background: var(--c-surface-alt);
+  backdrop-filter: blur(24px) saturate(1.4);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: calc(var(--radius) + 4px);
+  box-shadow: 0 32px 80px rgba(0,0,0,0.55);
+}
+[data-theme="light"] .modal-content {
+  background: rgba(255,255,255,0.92);
+  border-color: rgba(0,0,0,0.08);
+  box-shadow: 0 20px 56px rgba(0,0,0,0.2);
+}
+.modal-header {
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  padding: 1.25rem 1.5rem 1rem;
+}
+[data-theme="light"] .modal-header { border-color: rgba(0,0,0,0.07); }
+.modal-footer {
+  border-top: 1px solid rgba(255,255,255,0.07);
+}
+[data-theme="light"] .modal-footer { border-color: rgba(0,0,0,0.07); }
+
+/* ── Toasts: sombra y blur mejorados ────────────────────── */
+.tt-toast {
+  backdrop-filter: blur(20px) saturate(1.5);
+  border: 1px solid rgba(255,255,255,0.1) !important;
+  box-shadow: 0 10px 32px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.25) !important;
+}
+[data-theme="light"] .tt-toast {
+  border-color: rgba(0,0,0,0.08) !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.14) !important;
+}
+
+/* ── Tabla admin: hover + sortable ─────────────────────── */
+.adm-table th {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+  color: var(--c-muted);
+  border-bottom: 2px solid rgba(212,168,75,0.18);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+.adm-table tbody tr:hover td:first-child {
+  color: var(--c-gold);
+}
+/* Animación de carga de filas */
+.adm-table tbody tr {
+  animation: rowFadeIn 0.3s var(--ease) both;
+}
+.adm-table tbody tr:nth-child(1) { animation-delay: 0.02s; }
+.adm-table tbody tr:nth-child(2) { animation-delay: 0.04s; }
+.adm-table tbody tr:nth-child(3) { animation-delay: 0.06s; }
+.adm-table tbody tr:nth-child(4) { animation-delay: 0.08s; }
+.adm-table tbody tr:nth-child(5) { animation-delay: 0.10s; }
+@keyframes rowFadeIn {
+  from { opacity: 0; transform: translateX(-6px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ── Notif admin badge: pulsante ────────────────────────── */
+.notif-live-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #e05c2a;
+  box-shadow: 0 0 0 0 rgba(224,92,42,0.5);
+  animation: livePulse 1.6s ease infinite;
+}
+@keyframes livePulse {
+  0%   { box-shadow: 0 0 0 0 rgba(224,92,42,0.5); }
+  70%  { box-shadow: 0 0 0 7px rgba(224,92,42,0); }
+  100% { box-shadow: 0 0 0 0 rgba(224,92,42,0); }
+}
+
+/* ── Skeleton loading (placeholders en polling) ──────────── */
+@keyframes skeletonShimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg,
+    rgba(255,255,255,0.05) 25%,
+    rgba(255,255,255,0.10) 50%,
+    rgba(255,255,255,0.05) 75%
+  );
+  background-size: 800px 100%;
+  animation: skeletonShimmer 1.4s infinite;
+  border-radius: var(--radius-sm);
+}
+[data-theme="light"] .skeleton {
+  background: linear-gradient(90deg,
+    rgba(0,0,0,0.04) 25%,
+    rgba(0,0,0,0.08) 50%,
+    rgba(0,0,0,0.04) 75%
+  );
+  background-size: 800px 100%;
+}
+
+/* ── Sección: línea decorativa bajo el título ───────────── */
+.section-title::after {
+  content: '';
+  display: block;
+  width: 48px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--c-gold), var(--c-amber));
+  border-radius: 2px;
+  margin: 0.6rem auto 0;
+  opacity: 0;
+  transform: scaleX(0);
+  transition: transform 0.5s var(--ease), opacity 0.5s var(--ease);
+}
+.section-title.revealed::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+.section-title.text-start::after {
+  margin: 0.6rem 0 0;
+}
+
+/* ── Reveal stagger para grillas ────────────────────────── */
+.reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.55s var(--ease), transform 0.55s var(--ease);
+}
+.reveal-stagger.revealed > *:nth-child(1) { transition-delay: 0.05s; }
+.reveal-stagger.revealed > *:nth-child(2) { transition-delay: 0.10s; }
+.reveal-stagger.revealed > *:nth-child(3) { transition-delay: 0.15s; }
+.reveal-stagger.revealed > *:nth-child(4) { transition-delay: 0.20s; }
+.reveal-stagger.revealed > *:nth-child(5) { transition-delay: 0.25s; }
+.reveal-stagger.revealed > *:nth-child(6) { transition-delay: 0.30s; }
+.reveal-stagger.revealed > * { opacity: 1; transform: translateY(0); }
+
+/* ── Hover en imágenes de producto ──────────────────────── */
+.prod-img-wrap {
+  overflow: hidden;
+}
+.prod-img-wrap img,
+.prod-img-wrap .prod-img {
+  transition: transform 0.45s var(--ease);
+}
+.prod-card:hover .prod-img-wrap img,
+.prod-card:hover .prod-img-wrap .prod-img {
+  transform: scale(1.06);
+}
+
+/* ── Footer: separador gold ─────────────────────────────── */
+.footer-tt {
+  position: relative;
+}
+.footer-tt::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--c-gold), transparent);
+  border-radius: 2px;
+}
+
+/* ── Botón de tema: label visible en desktop ────────────── */
+.btn-theme {
+  transition: background var(--t), border-color var(--t), transform 0.2s var(--ease);
+}
+.btn-theme:hover { transform: translateY(-1px); }
+.btn-theme:active { transform: scale(0.94); }
+
+/* ── Progress bar de pedido animada ─────────────────────── */
+.progress-bar {
+  transition: width 0.8s var(--ease);
+  background: linear-gradient(90deg, var(--c-gold), var(--c-amber)) !important;
+  border-radius: 99px;
+}
+.progress {
+  background: rgba(255,255,255,0.07);
+  border-radius: 99px;
+  overflow: visible;
+}
+[data-theme="light"] .progress { background: rgba(0,0,0,0.07); }
+
+/* ── Admin notif panel: mejora ──────────────────────────── */
+.adm-notif-item {
+  transition: background var(--t);
+}
+.adm-notif-item:hover {
+  background: rgba(212,168,75,0.08);
+}
+
+/* ── Input file: área drag-drop ─────────────────────────── */
+input[type="file"].form-control {
+  cursor: pointer;
+  padding: 0.6rem 0.85rem;
+}
+input[type="file"].form-control:hover {
+  border-color: var(--c-gold);
+}
+
+/* ── Switch toggle: oferta activa admin ─────────────────── */
+.form-check-input[type="checkbox"] {
+  width: 2.5rem;
+  height: 1.3rem;
+  cursor: pointer;
+  border-radius: 99px;
+  border: 2px solid rgba(255,255,255,0.2);
+  background-color: rgba(255,255,255,0.08);
+  transition: background var(--t), border-color var(--t), box-shadow var(--t);
+  appearance: none;
+  -webkit-appearance: none;
+  position: relative;
+  flex-shrink: 0;
+}
+.form-check-input[type="checkbox"]::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 3px;
+  width: 14px;
+  height: 14px;
+  background: rgba(255,255,255,0.5);
+  border-radius: 50%;
+  transform: translateY(-50%);
+  transition: left 0.2s var(--ease), background 0.2s var(--ease);
+}
+.form-check-input[type="checkbox"]:checked {
+  background-color: var(--c-gold);
+  border-color: var(--c-gold);
+  box-shadow: 0 0 0 3px rgba(212,168,75,0.2);
+}
+.form-check-input[type="checkbox"]:checked::after {
+  left: calc(100% - 17px);
+  background: #0C0B09;
+}
+[data-theme="light"] .form-check-input[type="checkbox"] {
+  border-color: rgba(0,0,0,0.2);
+  background-color: rgba(0,0,0,0.06);
+}
+[data-theme="light"] .form-check-input[type="checkbox"]::after {
+  background: rgba(0,0,0,0.35);
+}
+
+/* ── Reservas: mapa de mesas hover glow ─────────────────── */
+.recurso-card {
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), border-color 0.25s var(--ease);
+}
+.recurso-card:hover:not(.ocupada) {
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 10px 28px rgba(212,168,75,0.2);
+  border-color: rgba(212,168,75,0.45) !important;
+}
+.recurso-card.seleccionada {
+  box-shadow: 0 6px 20px rgba(212,168,75,0.35);
+}
+
+/* ── Carrito flotante: shake cuando vacío ───────────────── */
+@keyframes cartShake {
+  0%, 100% { transform: rotate(0deg); }
+  20%       { transform: rotate(-12deg); }
+  40%       { transform: rotate(12deg); }
+  60%       { transform: rotate(-8deg); }
+  80%       { transform: rotate(8deg); }
+}
+.cart-shake { animation: cartShake 0.45s ease both; }
+
+/* ── Page transition: overlay más suave ─────────────────── */
+#page-loader {
+  backdrop-filter: blur(8px);
+}
+
+/* ── Tipografía: jerarquía mejorada ─────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+.section-eyebrow {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--c-gold);
+  margin-bottom: 0.6rem;
+  display: block;
+}
+
+/* ── Dark mode: acentos de borde gold en paneles clave ─── */
+.admin-panel-body,
+.adm-sidebar {
+  border: 1px solid rgba(255,255,255,0.06);
+}
+[data-theme="light"] .admin-panel-body,
+[data-theme="light"] .adm-sidebar {
+  border-color: rgba(0,0,0,0.07);
+}
+
+/* ── Ripple JS: estilos de soporte ─────────────────────── */
+.btn-primary-tt { position: relative; }
+.btn-ghost-tt   { position: relative; }
+
+/* ══════════════════════════════════════════════════════════
+   REDISEÑO PREMIUM 2026 — Componentes adicionales
+   ══════════════════════════════════════════════════════════ */
+
+/* ── Variables adicionales ─────────────────────────────── */
+:root {
+  --c-surface-alt: rgba(28,26,22,0.96);
+  --radius-xl: 28px;
+  --shadow-hover: 0 24px 64px rgba(0,0,0,0.55), 0 0 0 1px rgba(212,168,75,0.15);
+}
+[data-theme="light"] {
+  --c-surface-alt: rgba(255,255,255,0.96);
+  --shadow-hover: 0 16px 48px rgba(0,0,0,0.12), 0 0 0 1px rgba(212,168,75,0.2);
+}
+
+/* ── Botón de peligro moderno ──────────────────────────── */
+.btn-danger-tt {
+  background: rgba(255,77,106,0.1);
+  border: 1px solid rgba(255,77,106,0.3);
+  color: var(--c-red);
+  border-radius: 50px;
+  padding: 0.55rem 1.2rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--t) var(--ease);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.btn-danger-tt:hover {
+  background: rgba(255,77,106,0.18);
+  border-color: var(--c-red);
+  color: var(--c-red);
+  transform: translateY(-1px);
+}
+.btn-danger-tt:active { transform: translateY(0); }
+
+/* ── Botón secundario neutral ──────────────────────────── */
+.btn-neutral-tt {
+  background: var(--glass);
+  border: 1px solid var(--c-border);
+  color: var(--c-muted);
+  border-radius: 50px;
+  padding: 0.55rem 1.2rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--t) var(--ease);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.btn-neutral-tt:hover {
+  color: var(--c-text);
+  border-color: var(--c-text);
+  background: var(--glass);
+}
+
+/* ── CARRITO PAGE ───────────────────────────────────────── */
+.carrito-page-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--c-border);
+}
+.carrito-page-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin: 0;
+}
+.carrito-page-count {
+  background: var(--glass);
+  border: 1px solid var(--c-border);
+  color: var(--c-muted);
+  border-radius: 50px;
+  padding: 0.25rem 0.85rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* Carrito vacío */
+.carrito-empty {
+  text-align: center;
+  padding: 5rem 2rem;
+}
+.carrito-empty-icon {
+  width: 100px;
+  height: 100px;
+  border-radius: var(--radius-lg);
+  background: var(--glass);
+  border: 1px solid var(--c-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.75rem;
+  font-size: 2.8rem;
+  color: var(--c-gold);
+  transition: all var(--t) var(--ease);
+}
+.carrito-empty-icon:hover {
+  border-color: var(--c-gold);
+  transform: translateY(-4px) rotate(-3deg);
+  box-shadow: var(--shadow-gold);
+}
+.carrito-empty h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+/* Carrito resumen card */
+.carrito-resumen {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  position: sticky;
+  top: 90px;
+}
+.carrito-resumen-title {
+  font-weight: 700;
+  font-size: 1.05rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--c-border);
+}
+.carrito-resumen-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.65rem;
+  font-size: 0.9rem;
+}
+.carrito-resumen-row .label { color: var(--c-muted); }
+.carrito-resumen-row .valor { font-weight: 600; }
+.carrito-resumen-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  margin-top: 0.5rem;
+  border-top: 1px solid var(--c-border);
+}
+.carrito-resumen-total .label { font-weight: 700; font-size: 1rem; }
+.carrito-resumen-total .valor { font-size: 1.5rem; font-weight: 900; color: var(--c-gold); }
+.carrito-acciones {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+/* ── PEDIDOS — card de pedido ───────────────────────────── */
+.pedido-card {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: border-color var(--t) var(--ease), box-shadow var(--t) var(--ease), transform var(--t) var(--ease);
+}
+.pedido-card:hover {
+  border-color: rgba(212,168,75,0.35);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+  transform: translateY(-2px);
+}
+.pedido-card-header {
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  border-bottom: 1px solid var(--c-border);
+}
+.pedido-card-body { padding: 1.25rem 1.5rem; }
+.pedido-num {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--c-muted);
+  margin-bottom: 0.15rem;
+}
+.pedido-fecha {
+  font-weight: 700;
+  font-size: 0.925rem;
+}
+.pedido-total {
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: var(--c-gold);
+  letter-spacing: -0.02em;
+}
+.pedido-metodo {
+  font-size: 0.75rem;
+  color: var(--c-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.pedido-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+.pedido-btn {
+  padding: 0.4rem 0.85rem;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--t);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  border: 1px solid var(--c-border);
+  background: var(--glass);
+  color: var(--c-muted);
+}
+.pedido-btn:hover {
+  border-color: rgba(212,168,75,0.4);
+  color: var(--c-gold);
+  background: rgba(212,168,75,0.06);
+}
+.pedido-btn.gold {
+  border-color: rgba(212,168,75,0.35);
+  background: rgba(212,168,75,0.08);
+  color: var(--c-gold);
+}
+.pedido-btn.gold:hover {
+  background: rgba(212,168,75,0.16);
+  border-color: var(--c-gold);
+}
+
+/* ── PÁGINA VACÍA GENÉRICA ──────────────────────────────── */
+.page-empty {
+  text-align: center;
+  padding: 5rem 2rem;
+}
+.page-empty-icon {
+  width: 96px;
+  height: 96px;
+  border-radius: var(--radius-lg);
+  background: var(--glass);
+  border: 1px solid var(--c-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  font-size: 2.5rem;
+  color: var(--c-gold);
+}
+.page-empty h3 { font-size: 1.35rem; font-weight: 700; margin-bottom: 0.5rem; }
+.page-empty p  { color: var(--c-muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+
+/* ── COOKIE BANNER MEJORADO ──────────────────────────────── */
+.cookie-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9990;
+  background: var(--c-surface-alt);
+  border-top: 1px solid var(--glass-border);
+  backdrop-filter: blur(24px) saturate(1.5);
+  -webkit-backdrop-filter: blur(24px) saturate(1.5);
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  transform: translateY(110%);
+  transition: transform 0.5s var(--ease);
+  box-shadow: 0 -8px 32px rgba(0,0,0,0.25);
+}
+.cookie-banner.show { transform: translateY(0); }
+.cookie-banner-icon {
+  font-size: 1.5rem;
+  color: var(--c-gold);
+  flex-shrink: 0;
+}
+.cookie-banner-text { flex: 1; min-width: 220px; }
+.cookie-banner-text strong { font-size: 0.875rem; display: block; margin-bottom: 0.2rem; }
+.cookie-banner-text p {
+  font-size: 0.78rem;
+  color: var(--c-muted);
+  margin: 0;
+  line-height: 1.6;
+}
+.cookie-banner-text a { color: var(--c-gold); text-decoration: none; }
+.cookie-banner-config {
+  font-size: 0.78rem;
+  color: var(--c-muted);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.4rem 0.85rem;
+  border: 1px solid var(--c-border);
+  border-radius: 50px;
+  transition: all var(--t);
+}
+.cookie-banner-config:hover { color: var(--c-gold); border-color: rgba(212,168,75,0.4); }
+.cookie-banner-actions { display: flex; gap: 0.5rem; flex-shrink: 0; }
+.cookie-btn-decline {
+  background: var(--glass);
+  border: 1px solid var(--c-border);
+  color: var(--c-muted);
+  border-radius: 50px;
+  padding: 0.5rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--t);
+}
+.cookie-btn-decline:hover { border-color: rgba(255,255,255,0.2); color: var(--c-text); }
+.cookie-btn-accept {
+  background: linear-gradient(135deg, var(--c-gold), var(--c-amber));
+  border: none;
+  color: #fff;
+  border-radius: 50px;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--t) var(--ease);
+  box-shadow: 0 4px 16px rgba(212,168,75,0.35);
+}
+.cookie-btn-accept:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(212,168,75,0.5);
+}
+[data-theme="light"] .cookie-banner {
+  background: rgba(253,249,244,0.97);
+  border-color: rgba(0,0,0,0.08);
+  box-shadow: 0 -4px 24px rgba(0,0,0,0.1);
+}
+
+/* ── Overrides Bootstrap outline buttons → estilo TT ───── */
+.btn.btn-outline-secondary {
+  background: var(--glass) !important;
+  border-color: var(--c-border) !important;
+  color: var(--c-muted) !important;
+  border-radius: 50px !important;
+  font-weight: 500 !important;
+  transition: all var(--t) !important;
+}
+.btn.btn-outline-secondary:hover {
+  background: var(--glass) !important;
+  border-color: rgba(255,255,255,0.25) !important;
+  color: var(--c-text) !important;
+}
+.btn.btn-outline-warning {
+  background: rgba(212,168,75,0.1) !important;
+  border-color: rgba(212,168,75,0.35) !important;
+  color: var(--c-gold) !important;
+  border-radius: 50px !important;
+  font-weight: 600 !important;
+  transition: all var(--t) !important;
+}
+.btn.btn-outline-warning:hover {
+  background: rgba(212,168,75,0.18) !important;
+  border-color: var(--c-gold) !important;
+  color: var(--c-gold) !important;
+}
+.btn.btn-outline-danger {
+  background: rgba(255,77,106,0.08) !important;
+  border-color: rgba(255,77,106,0.3) !important;
+  color: var(--c-red) !important;
+  border-radius: 50px !important;
+  font-weight: 600 !important;
+  transition: all var(--t) !important;
+}
+.btn.btn-outline-danger:hover {
+  background: rgba(255,77,106,0.16) !important;
+  border-color: var(--c-red) !important;
+  color: var(--c-red) !important;
+}
+[data-theme="light"] .btn.btn-outline-secondary {
+  background: #fff !important;
+  border-color: rgba(0,0,0,0.15) !important;
+  color: rgba(28,20,16,0.6) !important;
+}
+[data-theme="light"] .btn.btn-outline-secondary:hover {
+  color: #1C1410 !important;
+  border-color: rgba(0,0,0,0.3) !important;
+}
+
+/* ── Carrito item: imagen más grande y hover ─────────────── */
+.carrito-item {
+  transition: border-color 0.25s var(--ease), transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+}
+.carrito-item:hover {
+  transform: translateX(4px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+.carrito-item img {
+  border-radius: var(--radius-sm);
+  transition: transform 0.4s var(--ease);
+}
+.carrito-item:hover img { transform: scale(1.05); }
+
+/* ── Barra de sección hero del catálogo ──────────────────── */
+.catalogo-hero {
+  min-height: 340px;
+}
+
+/* ── Navbar: glitch-free en scroll ──────────────────────── */
+.navbar-tierra.scrolled {
+  box-shadow: 0 4px 32px rgba(0,0,0,0.3);
+}
+
+/* ── Reservas modal: inputs premium ──────────────────────── */
+.modal-tierra .modal-content {
+  background: var(--c-surface-alt);
+  backdrop-filter: blur(28px) saturate(1.5);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+}
+[data-theme="light"] .modal-tierra .modal-content {
+  background: rgba(255,255,255,0.97);
+  border-color: rgba(0,0,0,0.08);
+  box-shadow: 0 24px 64px rgba(0,0,0,0.2);
+}
+.modal-tierra .form-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--c-muted);
+  margin-bottom: 0.4rem;
+}
+
+/* ── Animación de entrada de cards ──────────────────────── */
+@keyframes cardFadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.pedido-card { animation: cardFadeUp 0.4s var(--ease) both; }
+.pedido-card:nth-child(1) { animation-delay: 0.03s; }
+.pedido-card:nth-child(2) { animation-delay: 0.07s; }
+.pedido-card:nth-child(3) { animation-delay: 0.11s; }
+.pedido-card:nth-child(4) { animation-delay: 0.15s; }
+.pedido-card:nth-child(5) { animation-delay: 0.19s; }
+
+/* ── Hover en texto de navegación ───────────────────────── */
+.nav-pill {
+  position: relative;
+}
+.nav-pill::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50px;
+  background: var(--glass);
+  opacity: 0;
+  transition: opacity var(--t);
+}
+.nav-pill:hover::before, .nav-pill.active::before { opacity: 1; }
+
+/* ── Producción: micro-interacción botón agregar ─────────── */
+.btn-add {
+  position: relative;
+  overflow: hidden;
+}
+.btn-add::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+  opacity: 0;
+  transition: opacity var(--t);
+}
+.btn-add:hover::after { opacity: 1; }
+
+/* ── Admin: sidebar item pulse on active ────────────────── */
+.adm-link.activo {
+  background: linear-gradient(90deg, rgba(212,168,75,0.12), transparent);
+  color: var(--c-text);
+  border-left-color: var(--c-gold);
+}
+.adm-link.activo i {
+  color: var(--c-gold);
+}
+
+/* ── Perfil / form page: header premium ─────────────────── */
+.page-header-tt {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--c-border);
+}
+.page-header-tt h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+  font-weight: 700;
+  margin: 0;
+}
+.page-header-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: rgba(212,168,75,0.1);
+  border: 1px solid rgba(212,168,75,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  color: var(--c-gold);
+  flex-shrink: 0;
+}
+
+/* ── Light mode: mejoras finales ────────────────────────── */
+[data-theme="light"] .pedido-card {
+  background: #fff;
+  border-color: rgba(0,0,0,0.08);
+}
+[data-theme="light"] .carrito-resumen {
+  background: #fff;
+  border-color: rgba(0,0,0,0.08);
+}
+[data-theme="light"] .carrito-item {
+  background: #fff;
+  border-color: rgba(0,0,0,0.08);
+}
+[data-theme="light"] .cookie-btn-decline {
+  background: rgba(0,0,0,0.04);
+  border-color: rgba(0,0,0,0.12);
+  color: rgba(28,20,16,0.6);
+}
+[data-theme="light"] .cookie-btn-decline:hover {
+  color: #1C1410;
+  border-color: rgba(0,0,0,0.25);
+}
+
+/* ── Navbar: borde bottom glow al scroll ────────────────── */
+@keyframes navBorderIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.navbar-tierra.scrolled {
+  border-bottom-color: rgba(212,168,75,0.15);
+}
+
+/* ── Prod card: badge de oferta ──────────────────────────── */
+.prod-oferta-badge {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 3;
+  background: linear-gradient(135deg, var(--c-gold), var(--c-amber));
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 0.22rem 0.65rem;
+  border-radius: 99px;
+  letter-spacing: 0.3px;
+  box-shadow: 0 2px 8px rgba(212,168,75,0.4);
+}
+
+/* ── Divider gold con texto ──────────────────────────────── */
+.divider-gold-label {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--c-muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin: 1.5rem 0;
+}
+.divider-gold-label::before,
+.divider-gold-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--c-gold), transparent);
+  opacity: 0.25;
+}
+
+/* ── Section header centrado ─────────────────────────────── */
+.section-header {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 3.5rem;
+}
+
+/* ── Feature pill (home decorativo) ─────────────────────── */
+.feature-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 99px;
+  padding: 0.35rem 0.85rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--c-muted);
+  transition: all var(--t);
+}
+.feature-pill:hover {
+  border-color: rgba(212,168,75,0.3);
+  color: var(--c-gold);
+  background: rgba(212,168,75,0.06);
+}
+.feature-pill i { color: var(--c-gold); font-size: 0.85rem; }
+
+/* ── Scrollbar dorada para panels de admin ───────────────── */
+.adm-sidebar::-webkit-scrollbar { width: 4px; }
+.adm-sidebar::-webkit-scrollbar-track { background: transparent; }
+.adm-sidebar::-webkit-scrollbar-thumb {
+  background: rgba(212,168,75,0.25);
+  border-radius: 2px;
+}
+.adm-sidebar::-webkit-scrollbar-thumb:hover {
+  background: rgba(212,168,75,0.5);
+}
+
+/* ── Tabla admin: celda de acciones centrada ─────────────── */
+.adm-table td:last-child,
+.adm-table th:last-child {
+  text-align: right;
+}
+
+/* ── Formulario admin: labels ────────────────────────────── */
+.adm-form-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--c-muted);
+  margin-bottom: 0.4rem;
+  display: block;
+}
+
+/* ── Responsive: carrito ─────────────────────────────────── */
+@media (max-width: 576px) {
+  .carrito-item {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .carrito-item img { width: 56px; height: 56px; }
+  .pedido-card-header { flex-direction: column; align-items: flex-start; }
+  .pedido-actions { width: 100%; justify-content: flex-end; }
+}
+
+/* Fin del rediseño premium 2026 */

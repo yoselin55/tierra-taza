@@ -61,6 +61,47 @@
           </div>
         </div>
 
+          <!-- OFERTA -->
+          <div class="col-12">
+            <hr style="border-color:var(--c-border);margin:0.5rem 0 1rem">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <div class="form-check form-switch m-0">
+                <input class="form-check-input" type="checkbox" name="oferta_activa" id="oferta_activa" value="1"
+                       role="switch"
+                       {{ old('oferta_activa', $producto->oferta_activa ?? false) ? 'checked' : '' }}
+                       onchange="document.getElementById('campos_oferta').style.display=this.checked?'block':'none'">
+              </div>
+              <label class="tt-label m-0" for="oferta_activa" style="cursor:pointer;font-size:0.95rem">
+                <i class="bi bi-tag-fill" style="color:var(--c-gold)"></i> Activar Oferta
+              </label>
+            </div>
+
+            <div id="campos_oferta" style="display:{{ old('oferta_activa', $producto->oferta_activa ?? false) ? 'block' : 'none' }}">
+              <div class="row g-3">
+                <div class="col-md-5">
+                  <label class="tt-label">Nombre de la oferta</label>
+                  <input type="text" name="nombre_oferta" class="tt-input"
+                         placeholder="Ej: Promo Invierno, Oferta Especial…"
+                         value="{{ old('nombre_oferta', $producto->nombre_oferta) }}">
+                </div>
+                <div class="col-md-3">
+                  <label class="tt-label">Precio oferta (S/)</label>
+                  <input type="number" name="precio_oferta" class="tt-input" step="0.01" min="0"
+                         placeholder="0.00"
+                         value="{{ old('precio_oferta', $producto->precio_oferta) }}">
+                  <small style="color:var(--c-muted);font-size:0.72rem">Precio rebajado que verá el cliente</small>
+                </div>
+                <div class="col-md-4">
+                  <label class="tt-label">Válida hasta</label>
+                  <input type="date" name="oferta_hasta" class="tt-input"
+                         min="{{ date('Y-m-d') }}"
+                         value="{{ old('oferta_hasta', isset($producto->oferta_hasta) ? $producto->oferta_hasta->format('Y-m-d') : '') }}">
+                  <small style="color:var(--c-muted);font-size:0.72rem">Dejar vacío si no tiene fecha límite</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
         <div class="d-flex gap-3 mt-4">
           <button type="submit" class="btn-primary-tt">
             <i class="bi bi-{{ isset($producto->id)?'check-lg':'plus-lg' }}"></i>

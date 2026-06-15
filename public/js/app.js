@@ -327,4 +327,82 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
+  /* ── Ripple en botones ───────────────────────────────────── */
+  document.querySelectorAll('.btn-primary-tt, .btn-ghost-tt').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      const ripple = document.createElement('span');
+      ripple.className = 'btn-ripple';
+      const rect = btn.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      ripple.style.cssText = [
+        'width:' + size + 'px',
+        'height:' + size + 'px',
+        'left:' + (e.clientX - rect.left - size / 2) + 'px',
+        'top:' + (e.clientY - rect.top - size / 2) + 'px',
+        'position:absolute',
+        'border-radius:50%',
+        'pointer-events:none',
+      ].join(';');
+      btn.appendChild(ripple);
+      ripple.addEventListener('animationend', function() { ripple.remove(); });
+    });
+  });
+
+  /* ── Reveal stagger: iniciar IntersectionObserver ────────── */
+  document.querySelectorAll('.reveal-stagger').forEach(function(el) {
+    const obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    obs.observe(el);
+  });
+
+  /* ── Section title underline reveal ────────────────────────── */
+  document.querySelectorAll('.section-title').forEach(function(el) {
+    const obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    obs.observe(el);
+  });
+
+  /* ── Cart shake quando el carrito está vacío ──────────────── */
+  const cartFab = document.querySelector('.cart-fab, .js-cart-fab');
+  if (cartFab) {
+    cartFab.addEventListener('click', function() {
+      const badge = document.querySelector('.cart-count, .badge-count');
+      const count = badge ? parseInt(badge.textContent || '0') : 0;
+      if (count === 0) {
+        cartFab.classList.add('cart-shake');
+        cartFab.addEventListener('animationend', function() {
+          cartFab.classList.remove('cart-shake');
+        }, { once: true });
+      }
+    });
+  }
+
+  /* ── User notif panel toggle ─────────────────────────────── */
+  const notifBtn   = document.getElementById('userNotifBtn');
+  const notifPanel = document.getElementById('userNotifPanel');
+  if (notifBtn && notifPanel) {
+    notifBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const open = notifPanel.style.display !== 'none';
+      notifPanel.style.display = open ? 'none' : 'block';
+    });
+    document.addEventListener('click', function(e) {
+      if (!notifBtn.contains(e.target) && !notifPanel.contains(e.target)) {
+        notifPanel.style.display = 'none';
+      }
+    });
+  }
+
 }); /* fin DOMContentLoaded */

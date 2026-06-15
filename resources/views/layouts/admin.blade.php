@@ -8,7 +8,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/app.css') }}?v=2">
   @stack('styles')
 </head>
 <body>
@@ -37,49 +37,26 @@
         <i class="bi bi-speedometer2"></i> Dashboard
       </a>
 
-      {{-- Catálogo: Admin del Sistema y Admin General --}}
-      @if(in_array(auth()->user()->rol, ['admin_sistema','admin_general']))
-        <div class="adm-nav-section">Catálogo</div>
-        <a href="{{ route('admin.productos.index') }}"
-           class="adm-link {{ request()->routeIs('admin.productos*') ? 'activo' : '' }}">
-          <i class="bi bi-box-seam"></i> Productos
-        </a>
-      @endif
+      @php $rol = auth()->user()->rol; @endphp
 
-      <div class="adm-nav-section">Operaciones</div>
-
-      @if(auth()->user()->esBarista())
+      {{-- BARISTA: solo cocina --}}
+      @if($rol === 'barista')
+        <div class="adm-nav-section">Cocina</div>
         <a href="{{ route('admin.pedidos.index') }}"
            class="adm-link {{ request()->routeIs('admin.pedidos*') ? 'activo' : '' }}">
-          <i class="bi bi-fire"></i> Cocina — Pedidos
+          <i class="bi bi-fire"></i> Pedidos a Preparar
         </a>
-      @elseif(auth()->user()->esCoordinadorDelivery())
+
+      {{-- COORDINADOR DELIVERY: solo entregas --}}
+      @elseif($rol === 'coordinador_delivery')
+        <div class="adm-nav-section">Delivery</div>
         <a href="{{ route('admin.pedidos.index') }}"
            class="adm-link {{ request()->routeIs('admin.pedidos*') ? 'activo' : '' }}">
-          <i class="bi bi-truck"></i> Delivery — Entregas
+          <i class="bi bi-truck"></i> Entregas Pendientes
         </a>
-      @else
-        <a href="{{ route('admin.pedidos.index') }}"
-           class="adm-link {{ request()->routeIs('admin.pedidos*') ? 'activo' : '' }}">
-          <i class="bi bi-bag-check"></i> Pedidos
-        </a>
-      @endif
 
-      <a href="{{ route('admin.reservas.index') }}"
-         class="adm-link {{ request()->routeIs('admin.reservas*') ? 'activo' : '' }}">
-        <i class="bi bi-calendar3"></i> Reservas
-      </a>
-
-      {{-- Recursos: solo admin_general --}}
-      @if(auth()->user()->esAdminGeneral())
-        <a href="{{ route('admin.recursos.index') }}"
-           class="adm-link {{ request()->routeIs('admin.recursos*') ? 'activo' : '' }}">
-          <i class="bi bi-grid-3x3-gap"></i> Mesas &amp; Coworking
-        </a>
-      @endif
-
-      {{-- Cajero y admin_general: Caja --}}
-      @if(in_array(auth()->user()->rol, ['cajero','admin_general']))
+      {{-- CAJERO: solo sección de caja --}}
+      @elseif($rol === 'cajero')
         <div class="adm-nav-section">Caja</div>
         <a href="{{ route('admin.pagos.index') }}"
            class="adm-link {{ request()->routeIs('admin.pagos*') ? 'activo' : '' }}">
@@ -93,10 +70,57 @@
            class="adm-link {{ request()->routeIs('admin.reportes*') ? 'activo' : '' }}">
           <i class="bi bi-printer"></i> Reportes e Impresión
         </a>
-      @endif
 
-      {{-- Admin del Sistema y Admin General: Sistema --}}
-      @if(in_array(auth()->user()->rol, ['admin_sistema','admin_general']))
+      {{-- ADMIN SISTEMAS: catálogo y sistema --}}
+      @elseif($rol === 'admin_sistema')
+        <div class="adm-nav-section">Catálogo</div>
+        <a href="{{ route('admin.productos.index') }}"
+           class="adm-link {{ request()->routeIs('admin.productos*') ? 'activo' : '' }}">
+          <i class="bi bi-box-seam"></i> Productos
+        </a>
+        <div class="adm-nav-section">Sistema</div>
+        <a href="{{ route('admin.inventario') }}"
+           class="adm-link {{ request()->routeIs('admin.inventario*') ? 'activo' : '' }}">
+          <i class="bi bi-archive"></i> Inventario
+        </a>
+        <a href="{{ route('admin.usuarios') }}"
+           class="adm-link {{ request()->routeIs('admin.usuarios*') ? 'activo' : '' }}">
+          <i class="bi bi-people"></i> Usuarios
+        </a>
+
+      {{-- ADMIN GENERAL: todo --}}
+      @elseif($rol === 'admin_general')
+        <div class="adm-nav-section">Catálogo</div>
+        <a href="{{ route('admin.productos.index') }}"
+           class="adm-link {{ request()->routeIs('admin.productos*') ? 'activo' : '' }}">
+          <i class="bi bi-box-seam"></i> Productos
+        </a>
+        <div class="adm-nav-section">Operaciones</div>
+        <a href="{{ route('admin.pedidos.index') }}"
+           class="adm-link {{ request()->routeIs('admin.pedidos*') ? 'activo' : '' }}">
+          <i class="bi bi-bag-check"></i> Pedidos
+        </a>
+        <a href="{{ route('admin.reservas.index') }}"
+           class="adm-link {{ request()->routeIs('admin.reservas*') ? 'activo' : '' }}">
+          <i class="bi bi-calendar3"></i> Reservas
+        </a>
+        <a href="{{ route('admin.recursos.index') }}"
+           class="adm-link {{ request()->routeIs('admin.recursos*') ? 'activo' : '' }}">
+          <i class="bi bi-grid-3x3-gap"></i> Mesas &amp; Coworking
+        </a>
+        <div class="adm-nav-section">Caja</div>
+        <a href="{{ route('admin.pagos.index') }}"
+           class="adm-link {{ request()->routeIs('admin.pagos*') ? 'activo' : '' }}">
+          <i class="bi bi-wallet2"></i> Validar Pagos
+        </a>
+        <a href="{{ route('admin.incidencias.index') }}"
+           class="adm-link {{ request()->routeIs('admin.incidencias*') ? 'activo' : '' }}">
+          <i class="bi bi-exclamation-triangle"></i> Reclamos
+        </a>
+        <a href="{{ route('admin.reportes.index') }}"
+           class="adm-link {{ request()->routeIs('admin.reportes*') ? 'activo' : '' }}">
+          <i class="bi bi-printer"></i> Reportes e Impresión
+        </a>
         <div class="adm-nav-section">Sistema</div>
         <a href="{{ route('admin.inventario') }}"
            class="adm-link {{ request()->routeIs('admin.inventario*') ? 'activo' : '' }}">
@@ -174,7 +198,6 @@
 
         <img src="{{ asset('images/logo.jpg') }}" alt="Logo" class="adm-topbar-logo d-none d-sm-block">
         <span class="badge-tt badge-warning">{{ auth()->user()->rol_label }}</span>
-        <span style="font-size:0.875rem;color:var(--c-muted)" class="d-none d-md-inline">{{ auth()->user()->nombre }}</span>
       </div>
     </div>
 
@@ -206,7 +229,7 @@
 <div class="adm-sidebar-overlay" id="sidebarOverlay"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('js/app.js') }}?v=2"></script>
 
 <script>
 /* ── NOTIFICATION POLLING ──────────────────────────────────── */

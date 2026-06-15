@@ -189,11 +189,19 @@
       <div class="modal-body p-4">
         @guest
           <div class="text-center py-4">
-            <div style="font-size:2.5rem;color:var(--c-muted)"><i class="bi bi-lock-fill"></i></div>
-            <h5 class="mt-3">Inicia sesión para reservar</h5>
-            <p class="text-muted">Necesitas una cuenta para hacer una reserva</p>
-            <a href="{{ route('login') }}" class="btn-cafe btn me-2">Iniciar Sesión</a>
-            <a href="{{ route('register') }}" class="btn btn-outline-secondary">Registrarse</a>
+            <div class="page-empty-icon mx-auto mb-3">
+              <i class="bi bi-lock-fill"></i>
+            </div>
+            <h5 class="fw-bold mb-1">Inicia sesión para reservar</h5>
+            <p style="color:var(--c-muted);font-size:0.875rem;margin-bottom:1.5rem">Necesitas una cuenta para hacer una reserva</p>
+            <div class="d-flex gap-2 justify-content-center">
+              <a href="{{ route('login') }}" class="btn-primary-tt">
+                <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
+              </a>
+              <a href="{{ route('register') }}" class="btn-ghost-tt">
+                <i class="bi bi-person-plus"></i> Registrarse
+              </a>
+            </div>
           </div>
         @else
           <form id="formReserva">
@@ -201,60 +209,70 @@
             <input type="hidden" id="recurso_id" name="recurso_id">
 
             <div class="mb-3">
-              <label class="form-label fw-bold">Nombre completo</label>
-              <input type="text" name="nombre" id="r_nombre" class="form-control"
-                     value="{{ auth()->user()->nombre }}" required
-                     style="border-color:var(--borde);background:var(--card-bg);color:var(--texto)">
+              <label class="tt-label">Nombre completo</label>
+              <div class="tt-input-icon-wrap">
+                <i class="bi bi-person tt-input-icon"></i>
+                <input type="text" name="nombre" id="r_nombre" class="tt-input tt-input-padded"
+                       value="{{ auth()->user()->nombre }}" required placeholder="Tu nombre completo">
+              </div>
             </div>
 
             <div class="mb-3">
-              <label class="form-label fw-bold">DNI</label>
-              <input type="text" name="dni" id="r_dni" class="form-control"
-                     value="{{ auth()->user()->dni }}" maxlength="8" required
-                     style="border-color:var(--borde);background:var(--card-bg);color:var(--texto)">
+              <label class="tt-label">DNI</label>
+              <div class="tt-input-icon-wrap">
+                <i class="bi bi-credit-card tt-input-icon"></i>
+                <input type="text" name="dni" id="r_dni" class="tt-input tt-input-padded"
+                       value="{{ auth()->user()->dni }}" maxlength="8" required placeholder="12345678">
+              </div>
             </div>
 
             <div class="mb-3">
-              <label class="form-label fw-bold">Fecha</label>
-              <input type="date" name="fecha" id="r_fecha" class="form-control" required
-                     min="{{ date('Y-m-d') }}"
-                     style="border-color:var(--borde);background:var(--card-bg);color:var(--texto)">
+              <label class="tt-label">Fecha</label>
+              <div class="tt-input-icon-wrap">
+                <i class="bi bi-calendar3 tt-input-icon"></i>
+                <input type="date" name="fecha" id="r_fecha" class="tt-input tt-input-padded" required
+                       min="{{ date('Y-m-d') }}">
+              </div>
             </div>
 
             <div class="mb-3">
-              <label class="form-label fw-bold">Hora de inicio</label>
-              <select name="hora_inicio" id="r_hora" class="form-select" required
-                      style="border-color:var(--borde);background:var(--card-bg);color:var(--texto)">
-                @foreach(['07:00','08:00','09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00'] as $h)
-                  <option value="{{ $h }}">{{ $h }}</option>
-                @endforeach
-              </select>
+              <label class="tt-label">Hora de inicio</label>
+              <div class="tt-input-icon-wrap">
+                <i class="bi bi-clock tt-input-icon"></i>
+                <select name="hora_inicio" id="r_hora" class="tt-input tt-input-padded" required>
+                  @foreach(['07:00','08:00','09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00'] as $h)
+                    <option value="{{ $h }}">{{ $h }}</option>
+                  @endforeach
+                </select>
+              </div>
             </div>
 
             <div class="mb-3" id="campo_personas" style="display:none">
-              <label class="form-label fw-bold">Número de personas</label>
-              <input type="number" name="personas" id="r_personas" class="form-control"
-                     min="1" max="10" value="2"
-                     style="border-color:var(--borde);background:var(--card-bg);color:var(--texto)">
+              <label class="tt-label">Número de personas</label>
+              <div class="tt-input-icon-wrap">
+                <i class="bi bi-people tt-input-icon"></i>
+                <input type="number" name="personas" id="r_personas" class="tt-input tt-input-padded"
+                       min="1" max="10" value="2" placeholder="2">
+              </div>
             </div>
 
-            <div class="mb-3" id="campo_duracion">
-              <label class="form-label fw-bold">Duración</label>
+            <div class="mb-4" id="campo_duracion">
+              <label class="tt-label mb-2">Duración</label>
               <div class="row g-2">
                 @foreach([['1h','1 hora'],['4h','4 horas'],['dia','Día completo']] as [$val, $lab])
                   <div class="col-4">
                     <label class="pago-option text-center w-100 py-2">
                       <input type="radio" name="duracion" value="{{ $val }}" {{ $val === '1h' ? 'checked' : '' }}>
-                      <div class="fw-bold">{{ $lab }}</div>
+                      <div style="font-weight:700;font-size:0.85rem">{{ $lab }}</div>
                     </label>
                   </div>
                 @endforeach
               </div>
             </div>
 
-            <button type="submit" class="btn-cafe btn w-100 btn-lg mt-2" id="btnReservar">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:0.4rem"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M9 16l2 2 4-4"/></svg>
-              Confirmar Reserva
+            <button type="submit" class="btn-primary-tt w-100 justify-content-center mt-1" id="btnReservar"
+                    style="border-radius:var(--radius-sm);padding:0.95rem">
+              <i class="bi bi-calendar-check-fill me-2"></i>Confirmar Reserva
             </button>
           </form>
         @endguest
@@ -273,10 +291,19 @@
     if (lb) document.body.appendChild(lb);
   });
 
+  const ttIsGuest = @json(auth()->guest());
+  const ttLoginUrl = '{{ route("login") }}';
+
   let recursoActual = null;
   const modal = new bootstrap.Modal(document.getElementById('modalReserva'));
 
   function abrirModal(btn) {
+    if (ttIsGuest) {
+      window.toast('Inicia sesión para reservar una mesa o cubículo', 'info');
+      setTimeout(function() { window.location.href = ttLoginUrl; }, 1800);
+      return;
+    }
+
     recursoActual = btn;
     const tipo   = btn.dataset.tipo;
     const numero = btn.dataset.numero;
@@ -348,7 +375,7 @@
       window.toast('Error de conexión. Intenta de nuevo.', 'err');
     } finally {
       btn.disabled = false;
-      btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:0.4rem"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M9 16l2 2 4-4"/></svg>Confirmar Reserva';
+      btn.innerHTML = '<i class="bi bi-calendar-check-fill me-2"></i>Confirmar Reserva';
     }
   });
 

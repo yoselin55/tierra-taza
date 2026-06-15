@@ -35,9 +35,9 @@ class Recurso extends Model
     public function getIconoAttribute(): string
     {
         return match($this->tipo) {
-            'mesa'       => '🪑',
-            'coworking'  => '💻',
-            default      => '📍',
+            'mesa'       => 'bi bi-cup-hot-fill',
+            'coworking'  => 'bi bi-laptop',
+            default      => 'bi bi-geo-alt-fill',
         };
     }
 }

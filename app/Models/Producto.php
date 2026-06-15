@@ -12,12 +12,16 @@ class Producto extends Model
     protected $fillable = [
         'nombre', 'descripcion', 'precio', 'categoria',
         'imagen', 'stock', 'estado', 'rating',
+        'oferta_activa', 'nombre_oferta', 'precio_oferta', 'oferta_hasta',
     ];
 
     protected $casts = [
-        'precio' => 'decimal:2',
-        'rating' => 'decimal:1',
-        'estado' => 'boolean',
+        'precio'        => 'decimal:2',
+        'precio_oferta' => 'decimal:2',
+        'rating'        => 'decimal:1',
+        'estado'        => 'boolean',
+        'oferta_activa' => 'boolean',
+        'oferta_hasta'  => 'date',
     ];
 
     // Relaciones
@@ -63,6 +67,18 @@ class Producto extends Model
     public function hayStock(): bool
     {
         return $this->stock > 0 && $this->estado;
+    }
+
+    public function estaEnOferta(): bool
+    {
+        return $this->oferta_activa
+            && $this->precio_oferta !== null
+            && ($this->oferta_hasta === null || $this->oferta_hasta->greaterThanOrEqualTo(now()->startOfDay()));
+    }
+
+    public function getPrecioFinalAttribute(): string
+    {
+        return $this->estaEnOferta() ? $this->precio_oferta : $this->precio;
     }
 
     public function actualizarRating(): void

@@ -8,13 +8,21 @@ class HomeController extends Controller
 {
     public function index()
     {
-        // Café del día (el mejor valorado)
-        $cafeDia = Producto::activos()->orderByDesc('rating')->first();
+        // Ofertas activas del día
+        $ofertas = Producto::activos()
+            ->where('oferta_activa', true)
+            ->where(function ($q) {
+                $q->whereNull('oferta_hasta')
+                  ->orWhere('oferta_hasta', '>=', today());
+            })
+            ->orderByDesc('rating')
+            ->take(4)
+            ->get();
 
         // Productos destacados
         $destacados = Producto::activos()->orderByDesc('rating')->take(6)->get();
 
-        return view('shop.home', compact('cafeDia', 'destacados'));
+        return view('shop.home', compact('ofertas', 'destacados'));
     }
 
     public function sobre()

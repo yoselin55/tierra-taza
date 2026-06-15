@@ -2,11 +2,17 @@
 @section('title','Editar Perfil')
 @section('content')
 <div class="container py-5" style="max-width:640px">
-  <div class="d-flex align-items-center gap-3 mb-4">
-    <a href="{{ route('perfil.index') }}" class="btn-ghost-tt" style="padding:0.4rem 0.8rem">
+  <div class="page-header-tt reveal">
+    <a href="{{ route('perfil.index') }}" class="btn-ghost-tt" style="padding:0.4rem 0.8rem;flex-shrink:0">
       <i class="bi bi-arrow-left"></i>
     </a>
-    <h2 style="font-weight:700;margin:0">Editar Perfil</h2>
+    <div class="page-header-icon">
+      <i class="bi bi-person-gear"></i>
+    </div>
+    <div>
+      <h1 style="margin:0;font-size:1.5rem">Editar Perfil</h1>
+      <span style="color:var(--c-muted);font-size:0.82rem">Actualiza tus datos personales</span>
+    </div>
   </div>
 
   @if(session('success'))
@@ -16,7 +22,7 @@
     </div>
   @endif
 
-  <div style="background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--radius);padding:2rem">
+  <div class="pedido-detalle-card">
     <form action="{{ route('perfil.update') }}" method="POST">
       @csrf
 
