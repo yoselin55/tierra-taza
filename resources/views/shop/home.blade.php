@@ -144,30 +144,40 @@ window.addEventListener('load',()=>{
           $primerProducto = $promo->productos->first();
         @endphp
         <div class="{{ $colClass }} reveal">
-          <div class="promo-mk-card" style="--promo-color:{{ $promo->color }}" onclick="location.href='{{ route('promociones.show', $promo) }}'">
+          <div onclick="location.href='{{ route('promociones.show', $promo) }}'"
+               style="display:flex;flex-direction:column;background:#2e2a22;border:2px solid {{ $promo->color }};border-radius:16px;overflow:hidden;cursor:pointer;transition:transform .25s ease,box-shadow .25s ease"
+               onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 16px 40px rgba(0,0,0,.5)'"
+               onmouseout="this.style.transform='';this.style.boxShadow=''">
             <!-- Header -->
-            <div class="promo-mk-header">
-              <span class="promo-mk-title">
-                <i class="bi bi-tag-fill me-1" style="color:var(--promo-color,#D4A84B)"></i>{{ $promo->nombre }}
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:0.9rem 1.1rem;background:rgba(212,168,75,0.07);border-bottom:1px solid {{ $promo->color }}44">
+              <span style="font-family:var(--font-serif);font-size:1.05rem;font-weight:700;color:#e8e0d0">
+                <i class="bi bi-tag-fill me-1" style="color:{{ $promo->color }}"></i>{{ $promo->nombre }}
               </span>
-              <a href="{{ route('promociones.show', $promo) }}" class="promo-mk-link">Ver más <i class="bi bi-chevron-right"></i></a>
+              <a href="{{ route('promociones.show', $promo) }}"
+                 style="font-size:0.8rem;font-weight:700;color:{{ $promo->color }};text-decoration:none;white-space:nowrap"
+                 onclick="event.stopPropagation()">
+                Ver más <i class="bi bi-chevron-right"></i>
+              </a>
             </div>
             <!-- Imagen del primer producto -->
-            <div class="promo-mk-img-wrap">
+            <div style="position:relative;height:220px;overflow:hidden">
               @if($primerProducto)
-                <img src="{{ $primerProducto->imagen_url }}" alt="{{ $primerProducto->nombre }}" class="promo-mk-img">
+                <img src="{{ $primerProducto->imagen_url }}" alt="{{ $primerProducto->nombre }}"
+                     style="width:100%;height:100%;object-fit:cover;object-position:center">
               @else
-                <div class="promo-mk-img-placeholder"><i class="bi bi-cup-hot-fill"></i></div>
+                <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3rem;color:{{ $promo->color }};opacity:0.4">
+                  <i class="bi bi-cup-hot-fill"></i>
+                </div>
               @endif
             </div>
             <!-- Precio del primer producto -->
             @if($primerProducto)
-            <div class="promo-mk-footer">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:0.8rem 1.1rem;border-top:1px solid {{ $promo->color }}33">
               <div>
-                <span class="promo-mk-price">S/ {{ number_format($primerProducto->precio_oferta, 2) }}</span>
-                <span class="promo-mk-price-old">S/ {{ number_format($primerProducto->precio, 2) }}</span>
+                <span style="font-size:1.1rem;font-weight:800;color:{{ $promo->color }}">S/ {{ number_format($primerProducto->precio_oferta, 2) }}</span>
+                <span style="font-size:0.8rem;color:#7a6a5a;text-decoration:line-through;margin-left:0.4rem">S/ {{ number_format($primerProducto->precio, 2) }}</span>
               </div>
-              <span class="promo-mk-badge">
+              <span style="font-size:0.72rem;font-weight:800;background:{{ $promo->color }};color:#000;padding:0.2rem 0.55rem;border-radius:6px">
                 -{{ round((1 - $primerProducto->precio_oferta / $primerProducto->precio) * 100) }}%
               </span>
             </div>
