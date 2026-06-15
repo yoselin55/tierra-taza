@@ -147,30 +147,31 @@ window.addEventListener('load',()=>{
           <div class="promo-mk-card" style="--promo-color:{{ $promo->color }}" onclick="location.href='{{ route('promociones.show', $promo) }}'">
             <!-- Header -->
             <div class="promo-mk-header">
-              <span class="promo-mk-title">{{ $promo->nombre }}</span>
+              <span class="promo-mk-title">
+                <i class="bi bi-tag-fill me-1" style="color:var(--promo-color,#D4A84B)"></i>{{ $promo->nombre }}
+              </span>
               <a href="{{ route('promociones.show', $promo) }}" class="promo-mk-link">Ver más <i class="bi bi-chevron-right"></i></a>
             </div>
-            <!-- Imagen -->
+            <!-- Imagen del primer producto -->
             <div class="promo-mk-img-wrap">
               @if($primerProducto)
-                <img src="{{ $primerProducto->imagen_url }}" alt="{{ $promo->nombre }}" class="promo-mk-img">
+                <img src="{{ $primerProducto->imagen_url }}" alt="{{ $primerProducto->nombre }}" class="promo-mk-img">
               @else
-                <div class="promo-mk-img-placeholder"><i class="bi bi-tag-fill"></i></div>
+                <div class="promo-mk-img-placeholder"><i class="bi bi-cup-hot-fill"></i></div>
               @endif
-              <div class="promo-mk-img-grad"></div>
             </div>
-            <!-- Footer info -->
+            <!-- Precio del primer producto -->
+            @if($primerProducto)
             <div class="promo-mk-footer">
-              <div class="promo-mk-count">
-                <i class="bi bi-bag-fill"></i>
-                {{ $promo->productos_activos_count }} producto{{ $promo->productos_activos_count !== 1 ? 's' : '' }} en oferta
+              <div>
+                <span class="promo-mk-price">S/ {{ number_format($primerProducto->precio_oferta, 2) }}</span>
+                <span class="promo-mk-price-old">S/ {{ number_format($primerProducto->precio, 2) }}</span>
               </div>
-              @if($promo->fecha_fin)
-                <div class="promo-mk-date">
-                  <i class="bi bi-clock-fill"></i> Hasta {{ $promo->fecha_fin->format('d/m') }}
-                </div>
-              @endif
+              <span class="promo-mk-badge">
+                -{{ round((1 - $primerProducto->precio_oferta / $primerProducto->precio) * 100) }}%
+              </span>
             </div>
+            @endif
           </div>
         </div>
       @endforeach
