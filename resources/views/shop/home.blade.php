@@ -144,11 +144,11 @@ window.addEventListener('load',()=>{
           $primerProducto = $promo->productos->first();
         @endphp
         <div class="{{ $colClass }} reveal">
-          <a href="{{ route('promociones.show', $promo) }}" class="promo-mk-card" style="--promo-color:{{ $promo->color }}">
+          <div class="promo-mk-card" style="--promo-color:{{ $promo->color }}" onclick="location.href='{{ route('promociones.show', $promo) }}'">
             <!-- Header -->
             <div class="promo-mk-header">
               <span class="promo-mk-title">{{ $promo->nombre }}</span>
-              <span class="promo-mk-link">Ver más <i class="bi bi-chevron-right"></i></span>
+              <a href="{{ route('promociones.show', $promo) }}" class="promo-mk-link">Ver más <i class="bi bi-chevron-right"></i></a>
             </div>
             <!-- Imagen -->
             <div class="promo-mk-img-wrap">
@@ -171,7 +171,7 @@ window.addEventListener('load',()=>{
                 </div>
               @endif
             </div>
-          </a>
+          </div>
         </div>
       @endforeach
     </div>

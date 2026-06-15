@@ -5954,19 +5954,16 @@ h1, h2, h3, h4, h5, h6 {
 .promo-mk-card {
   display: flex;
   flex-direction: column;
-  background: var(--glass);
-  border: 1px solid rgba(255,255,255,0.07);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  text-decoration: none;
-  color: var(--c-text);
+  cursor: pointer;
   transition: transform var(--t), box-shadow var(--t);
 }
 .promo-mk-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 12px 36px rgba(0,0,0,0.4), 0 0 0 1px var(--promo-color, var(--c-gold));
-  color: var(--c-text);
-  text-decoration: none;
 }
 .promo-mk-header {
   display: flex;
