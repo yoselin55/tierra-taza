@@ -133,7 +133,7 @@
         @php $tieneAbierto = $pedido->incidencias->where('estado','abierta')->count() > 0; @endphp
         @if(!$tieneAbierto)
           <div id="reclamo-form-wrap">
-          <form id="reclamo-form" action="{{ route('pedidos.incidencia', $pedido) }}" method="POST">
+          <form id="reclamo-form" action="{{ route('pedidos.incidencia', $pedido) }}" method="POST" enctype="multipart/form-data">
             @csrf
             <p style="color:var(--c-muted);font-size:0.875rem;margin-bottom:1rem">
               ¿Tuviste algún problema? Selecciona el tipo de reclamo:
@@ -160,6 +160,20 @@
               <textarea name="descripcion" class="tt-input" rows="3"
                         placeholder="Cuéntanos qué pasó con tu pedido..." required
                         style="resize:none">{{ old('descripcion') }}</textarea>
+            </div>
+            <div class="mb-3">
+              <label class="tt-label">
+                <i class="bi bi-camera-fill me-1" style="color:var(--c-gold)"></i>
+                Foto de evidencia <span style="color:#f87171">*</span>
+              </label>
+              <label id="img-label" for="reclamo-imagen"
+                     style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;border:2px dashed rgba(212,168,75,0.35);border-radius:12px;padding:1.2rem;cursor:pointer;background:rgba(212,168,75,0.04);transition:border-color .2s">
+                <i id="img-icon" class="bi bi-upload" style="font-size:1.6rem;color:var(--c-gold)"></i>
+                <span id="img-hint" style="font-size:0.82rem;color:var(--c-muted)">Toca para seleccionar una foto</span>
+                <img id="img-preview" src="" alt="" style="display:none;max-height:140px;border-radius:8px;object-fit:cover;max-width:100%">
+              </label>
+              <input type="file" id="reclamo-imagen" name="imagen" accept="image/*" required
+                     style="display:none">
             </div>
             <button type="submit" class="btn-primary-tt">
               <i class="bi bi-send-fill"></i> Enviar Reclamo
@@ -213,13 +227,19 @@
   function renderInc(inc) {
     var div = document.createElement('div');
     div.className = 'reclamo-item mb-3 ' + inc.estado;
+    var imgHtml = inc.imagen_url
+      ? '<div style="margin-bottom:0.5rem"><img src="' + inc.imagen_url + '" style="max-height:100px;border-radius:8px;object-fit:cover;border:1px solid rgba(212,168,75,0.3)"></div>'
+      : '';
+    var respHtml = inc.respuesta
+      ? '<div class="reclamo-respuesta"><i class="bi bi-reply-fill me-1" style="color:var(--c-gold)"></i><strong>Respuesta:</strong> ' + inc.respuesta + '</div>'
+      : '<div style="font-size:0.8rem;color:var(--c-muted)"><i class="bi bi-clock me-1"></i>En revisión por el cajero</div>';
     div.innerHTML =
       '<div class="d-flex justify-content-between align-items-start mb-2">' +
         '<div style="font-weight:700"><i class="bi ' + inc.icono + ' me-1"></i>' + inc.tipo + '</div>' +
         '<span class="badge-tt ' + inc.estado_badge + '">' + inc.estado_label + '</span>' +
       '</div>' +
       '<p style="font-size:0.875rem;margin-bottom:0.5rem">' + inc.descripcion + '</p>' +
-      '<div style="font-size:0.8rem;color:var(--c-muted)"><i class="bi bi-clock me-1"></i>En revisión por el cajero</div>';
+      imgHtml + respHtml;
     return div;
   }
 
@@ -232,6 +252,26 @@
     container.appendChild(hr);
   }
 
+  // Preview de imagen
+  var imgInput   = document.getElementById('reclamo-imagen');
+  var imgPreview = document.getElementById('img-preview');
+  var imgHint    = document.getElementById('img-hint');
+  var imgIcon    = document.getElementById('img-icon');
+  if (imgInput) {
+    imgInput.addEventListener('change', function() {
+      var file = imgInput.files[0];
+      if (!file) return;
+      var reader = new FileReader();
+      reader.onload = function(ev) {
+        imgPreview.src = ev.target.result;
+        imgPreview.style.display = 'block';
+        imgIcon.style.display = 'none';
+        imgHint.textContent = file.name;
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
   // Envío AJAX del formulario
   if (form) {
     form.addEventListener('submit', function(e) {
@@ -241,14 +281,14 @@
       btn.disabled = true;
       btn.innerHTML = '<i class="bi bi-hourglass-split me-1"></i> Enviando...';
 
+      var fd = new FormData(form);
       fetch(submitUrl, {
         method: 'POST',
         headers: {
           'X-CSRF-TOKEN': csrf,
           'Accept': 'application/json',
-          'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: new URLSearchParams(new FormData(form)),
+        body: fd,
       })
       .then(function(r) { return r.json(); })
       .then(function(d) {

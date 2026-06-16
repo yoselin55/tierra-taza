@@ -46,6 +46,23 @@
           <p style="font-size:0.875rem;color:var(--c-text);margin:0;line-height:1.5">{{ $inc->descripcion }}</p>
         </div>
 
+        {{-- Foto de evidencia --}}
+        @if($inc->imagen_url)
+          <div class="mb-3">
+            <a href="{{ $inc->imagen_url }}" target="_blank" title="Ver foto completa">
+              <img src="{{ $inc->imagen_url }}" alt="Evidencia"
+                   style="max-height:130px;border-radius:8px;object-fit:cover;border:1px solid rgba(212,168,75,0.3);cursor:zoom-in">
+            </a>
+            <div style="font-size:0.75rem;color:var(--c-muted);margin-top:0.3rem">
+              <i class="bi bi-camera-fill me-1" style="color:var(--c-gold)"></i>Foto de evidencia adjunta
+            </div>
+          </div>
+        @else
+          <div class="mb-3" style="font-size:0.78rem;color:rgba(248,113,113,0.8)">
+            <i class="bi bi-camera-video-off me-1"></i>Sin foto de evidencia
+          </div>
+        @endif
+
         {{-- Respuesta previa --}}
         @if($inc->respuesta)
           <div class="mb-3 px-3 py-2 rounded-2"

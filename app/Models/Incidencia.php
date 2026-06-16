@@ -10,8 +10,13 @@ class Incidencia extends Model
     use HasFactory;
 
     protected $fillable = [
-        'pedido_id', 'tipo', 'descripcion', 'fecha', 'estado', 'respuesta',
+        'pedido_id', 'tipo', 'descripcion', 'imagen', 'fecha', 'estado', 'respuesta',
     ];
+
+    public function getImagenUrlAttribute(): ?string
+    {
+        return $this->imagen ? asset('storage/' . $this->imagen) : null;
+    }
 
     protected $casts = [
         'fecha' => 'datetime',

@@ -196,12 +196,16 @@ class PedidoController extends Controller
         $request->validate([
             'tipo'        => 'required|in:problema,devolucion,reenvio',
             'descripcion' => 'required|string|max:500',
+            'imagen'      => 'required|image|max:4096',
         ]);
+
+        $rutaImagen = $request->file('imagen')->store('incidencias', 'public');
 
         $inc = Incidencia::create([
             'pedido_id'   => $pedido->id,
             'tipo'        => $request->tipo,
             'descripcion' => $request->descripcion,
+            'imagen'      => $rutaImagen,
             'fecha'       => now(),
             'estado'      => 'abierta',
         ]);
@@ -218,6 +222,7 @@ class PedidoController extends Controller
                     'estado_badge' => $inc->estado_badge,
                     'descripcion'  => $inc->descripcion,
                     'respuesta'    => null,
+                    'imagen_url'   => $inc->imagen_url,
                     'fecha'        => $inc->fecha->format('d/m/Y H:i'),
                 ],
             ]);
@@ -233,14 +238,15 @@ class PedidoController extends Controller
         }
 
         $incidencias = $pedido->incidencias()->latest()->get()->map(fn($inc) => [
-            'id'        => $inc->id,
-            'tipo'      => $inc->tipo_label,
-            'icono'     => $inc->tipo_icono,
-            'estado'    => $inc->estado,
+            'id'          => $inc->id,
+            'tipo'        => $inc->tipo_label,
+            'icono'       => $inc->tipo_icono,
+            'estado'      => $inc->estado,
             'estado_label' => $inc->estado_label,
             'estado_badge' => $inc->estado_badge,
             'descripcion'  => $inc->descripcion,
             'respuesta'    => $inc->respuesta,
+            'imagen_url'   => $inc->imagen_url,
             'fecha'        => $inc->fecha->format('d/m/Y H:i'),
         ]);
 
