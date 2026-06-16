@@ -15,7 +15,7 @@
     </span>
     @if($inc->respuesta)
       <span style="color:var(--c-muted);margin-left:0.4rem">·</span>
-      <span style="color:var(--c-muted);margin-left:0.4rem;font-style:italic">"{{ \Str::limit($inc->respuesta, 60) }}"</span>
+      <span style="color:var(--c-muted);margin-left:0.4rem;font-style:italic">"{{ mb_strlen($inc->respuesta) > 60 ? mb_substr($inc->respuesta, 0, 60) . '…' : $inc->respuesta }}"</span>
     @endif
   </div>
   <span class="badge-tt {{ $inc->estado_badge }}" style="font-size:0.7rem;flex-shrink:0">{{ $inc->estado_label }}</span>
