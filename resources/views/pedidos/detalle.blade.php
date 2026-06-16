@@ -252,6 +252,28 @@
     container.appendChild(hr);
   }
 
+  function showAlert(msg, tipo) {
+    var el = document.getElementById('reclamo-alert');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'reclamo-alert';
+      el.style.cssText = 'margin-bottom:1rem;padding:0.75rem 1rem;border-radius:10px;font-size:0.875rem;display:flex;align-items:center;gap:0.5rem';
+      if (form) form.parentNode.insertBefore(el, form);
+    }
+    if (tipo === 'error') {
+      el.style.background = 'rgba(239,68,68,0.12)';
+      el.style.border = '1px solid rgba(239,68,68,0.35)';
+      el.style.color = '#f87171';
+      el.innerHTML = '<i class="bi bi-exclamation-circle-fill"></i> ' + msg;
+    } else {
+      el.style.background = 'rgba(34,197,94,0.12)';
+      el.style.border = '1px solid rgba(34,197,94,0.35)';
+      el.style.color = '#86efac';
+      el.innerHTML = '<i class="bi bi-check-circle-fill"></i> ' + msg;
+    }
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
   // Preview de imagen
   var imgInput   = document.getElementById('reclamo-imagen');
   var imgPreview = document.getElementById('img-preview');
@@ -284,21 +306,32 @@
       var fd = new FormData(form);
       fetch(submitUrl, {
         method: 'POST',
-        headers: {
-          'X-CSRF-TOKEN': csrf,
-          'Accept': 'application/json',
-        },
+        headers: { 'X-CSRF-TOKEN': csrf, 'Accept': 'application/json' },
         body: fd,
       })
-      .then(function(r) { return r.json(); })
-      .then(function(d) {
-        if (d.ok) {
-          // Insertar el reclamo en el container
-          container.insertBefore(renderInc(d.inc), container.firstChild);
+      .then(function(r) {
+        return r.json().then(function(data) { return { status: r.status, data: data }; });
+      })
+      .then(function(res) {
+        if (res.status === 422) {
+          // Errores de validación — mostrar el primero
+          var errors = res.data.errors || {};
+          var keys = Object.keys(errors);
+          var msg = keys.length ? errors[keys[0]][0] : (res.data.message || 'Verifica los campos.');
+          showAlert(msg, 'error');
+          btn.disabled = false;
+          btn.innerHTML = original;
+          return;
+        }
+        if (res.data.ok) {
+          // Insertar reclamo al instante
+          var newInc = renderInc(res.data.inc);
+          container.insertBefore(newInc, container.firstChild);
           var hr = document.createElement('div');
           hr.className = 'divider-gold my-3';
           container.appendChild(hr);
-          // Ocultar el formulario y mostrar mensaje de espera
+          // Mostrar mensaje de éxito y ocultar formulario
+          showAlert('¡Reclamo enviado! El cajero lo revisará y te responderá pronto.', 'ok');
           if (formWrap) {
             formWrap.innerHTML =
               '<div style="text-align:center;padding:1rem;color:var(--c-muted);font-size:0.875rem">' +
@@ -306,25 +339,26 @@
               '</div>';
           }
         } else {
+          showAlert('No se pudo enviar el reclamo. Intenta de nuevo.', 'error');
           btn.disabled = false;
           btn.innerHTML = original;
         }
       })
       .catch(function() {
+        showAlert('Error de conexión. Verifica tu internet e intenta de nuevo.', 'error');
         btn.disabled = false;
         btn.innerHTML = original;
-        alert('Error al enviar. Intenta de nuevo.');
       });
     });
   }
 
-  // Polling cada 8 segundos para actualizar respuestas
+  // Polling cada 5 segundos para actualizar respuestas del cajero
   setInterval(function() {
     fetch(pollUrl, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
       .then(function(r) { return r.json(); })
       .then(function(d) { if (d.incidencias && d.incidencias.length) renderIncidencias(d.incidencias); })
       .catch(function() {});
-  }, 8000);
+  }, 5000);
 })();
 </script>
 @endpush
