@@ -52,6 +52,8 @@ class Incidencia extends Model
         return match($this->estado) {
             'abierta'    => 'badge-danger',
             'en_proceso' => 'badge-warning',
+            'validada'   => 'badge-success',
+            'rechazada'  => 'badge-danger',
             'resuelta'   => 'badge-success',
             default      => 'badge-info',
         };
@@ -62,8 +64,15 @@ class Incidencia extends Model
         return match($this->estado) {
             'abierta'    => 'Abierta',
             'en_proceso' => 'En proceso',
+            'validada'   => 'Validada',
+            'rechazada'  => 'Rechazada',
             'resuelta'   => 'Resuelta',
             default      => ucfirst($this->estado),
         };
+    }
+
+    public function estaResuelta(): bool
+    {
+        return in_array($this->estado, ['validada', 'rechazada', 'resuelta']);
     }
 }

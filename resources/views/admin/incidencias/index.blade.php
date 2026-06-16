@@ -9,7 +9,7 @@
   <form method="GET" class="d-flex gap-2">
     <select name="estado" class="tt-input" style="max-width:200px" onchange="this.form.submit()">
       <option value="" {{ !$filtro ? 'selected' : '' }}>Todos</option>
-      @foreach(['abierta'=>'Abiertos','en_proceso'=>'En proceso','resuelta'=>'Resueltos'] as $k=>$v)
+      @foreach(['abierta'=>'Abiertos','en_proceso'=>'En proceso','validada'=>'Validados','rechazada'=>'Rechazados'] as $k=>$v)
         <option value="{{ $k }}" {{ $filtro===$k ? 'selected' : '' }}>{{ $v }}</option>
       @endforeach
     </select>

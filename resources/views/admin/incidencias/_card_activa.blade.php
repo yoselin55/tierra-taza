@@ -36,25 +36,39 @@
     <div class="mb-3 px-3 py-2 rounded-2"
          style="background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.25);font-size:0.82rem">
       <i class="bi bi-reply-fill me-1" style="color:#86efac"></i>
-      Respuesta: {{ $inc->respuesta }}
+      Respuesta anterior: {{ $inc->respuesta }}
     </div>
   @endif
 
   <form action="{{ route('admin.incidencias.responder', $inc) }}" method="POST">
     @csrf @method('PATCH')
+    <input type="hidden" name="estado" id="estado-{{ $inc->id }}" value="en_proceso">
     <div class="mb-2">
       <textarea name="respuesta" class="tt-input" rows="2"
                 placeholder="Escribe tu respuesta al cliente..." required
                 style="font-size:0.82rem">{{ old('respuesta') }}</textarea>
     </div>
-    <div class="d-flex gap-2">
-      <select name="estado" class="tt-input" style="font-size:0.8rem;padding:0.35rem 0.6rem;max-width:150px">
-        <option value="en_proceso">En proceso</option>
-        <option value="resuelta">Marcar resuelta</option>
-      </select>
-      <button type="submit" class="btn-add flex-grow-1"
-              style="color:var(--c-gold);border-color:rgba(200,150,60,0.4);justify-content:center">
-        <i class="bi bi-send-fill me-1"></i> Responder
+    <div class="d-flex gap-2 flex-wrap">
+      {{-- En proceso --}}
+      <button type="submit"
+              onclick="document.getElementById('estado-{{ $inc->id }}').value='en_proceso'"
+              class="btn-add"
+              style="color:#fbbf24;border-color:rgba(245,158,11,0.4);flex:1;justify-content:center;font-size:0.82rem">
+        <i class="bi bi-hourglass-split me-1"></i> En proceso
+      </button>
+      {{-- Validar --}}
+      <button type="submit"
+              onclick="document.getElementById('estado-{{ $inc->id }}').value='validada'"
+              class="btn-add"
+              style="color:#86efac;border-color:rgba(34,197,94,0.4);flex:1;justify-content:center;font-size:0.82rem">
+        <i class="bi bi-check-circle-fill me-1"></i> Validar
+      </button>
+      {{-- Rechazar --}}
+      <button type="submit"
+              onclick="document.getElementById('estado-{{ $inc->id }}').value='rechazada'"
+              class="btn-add"
+              style="color:#f87171;border-color:rgba(239,68,68,0.4);flex:1;justify-content:center;font-size:0.82rem">
+        <i class="bi bi-x-circle-fill me-1"></i> Rechazar
       </button>
     </div>
   </form>

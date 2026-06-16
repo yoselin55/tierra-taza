@@ -12,6 +12,8 @@ class IncidenciaAdminController extends Controller
     {
         $filtro = $request->estado;
 
+        $estadosResueltos = ['validada', 'rechazada', 'resuelta'];
+
         if ($filtro) {
             $incidencias = Incidencia::with(['pedido.user'])
                 ->where('estado', $filtro)
@@ -26,7 +28,7 @@ class IncidenciaAdminController extends Controller
             ->get();
 
         $resueltas = Incidencia::with(['pedido.user'])
-            ->where('estado', 'resuelta')
+            ->whereIn('estado', ['validada', 'rechazada', 'resuelta'])
             ->latest()
             ->paginate(15);
 
@@ -41,8 +43,8 @@ class IncidenciaAdminController extends Controller
     public function responder(Request $request, Incidencia $incidencia)
     {
         $request->validate([
-            'respuesta'    => 'required|string|max:500',
-            'estado'       => 'required|in:en_proceso,resuelta',
+            'respuesta' => 'required|string|max:500',
+            'estado'    => 'required|in:en_proceso,validada,rechazada',
         ]);
 
         $incidencia->update([
