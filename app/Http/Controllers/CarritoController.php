@@ -32,7 +32,7 @@ class CarritoController extends Controller
             $carrito[$id] = [
                 'id'       => $producto->id,
                 'nombre'   => $producto->nombre,
-                'precio'   => $producto->precio,
+                'precio'   => $producto->estaEnOferta() ? $producto->precio_oferta : $producto->precio,
                 'cantidad' => 1,
                 'imagen'   => $producto->imagen_url,
             ];

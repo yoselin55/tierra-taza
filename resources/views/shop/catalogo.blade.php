@@ -115,6 +115,12 @@
             <div class="prod-img-wrap">
               <img src="{{ $producto->imagen_url }}" alt="{{ $producto->nombre }}">
               <span class="prod-cat-badge">{{ $producto->categoria_label }}</span>
+              @if($producto->estaEnOferta())
+                @php $pct = $producto->precio > 0 ? round((1 - $producto->precio_oferta / $producto->precio) * 100) : 0; @endphp
+                <div style="position:absolute;top:0.6rem;left:0.6rem;z-index:3;background:#D4A84B;color:#000;font-size:0.68rem;font-weight:800;padding:0.2rem 0.6rem;border-radius:99px">
+                  -{{ $pct }}% OFF
+                </div>
+              @endif
               @if(!$producto->hayStock())
                 <div style="position:absolute;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center">
                   <span class="badge-tt badge-danger" style="font-size:0.8rem;padding:0.4rem 1rem">
@@ -128,7 +134,12 @@
               <div class="prod-desc">{{ mb_substr($producto->descripcion, 0, 70) }}</div>
               <div class="prod-footer">
                 <div>
-                  <div class="prod-price">S/ {{ number_format($producto->precio, 2) }}</div>
+                  @if($producto->estaEnOferta())
+                    <div class="prod-price">S/ {{ number_format($producto->precio_oferta, 2) }}</div>
+                    <div style="font-size:0.72rem;color:var(--c-muted);text-decoration:line-through">S/ {{ number_format($producto->precio, 2) }}</div>
+                  @else
+                    <div class="prod-price">S/ {{ number_format($producto->precio, 2) }}</div>
+                  @endif
                   <div class="prod-rating">
                     <i class="bi bi-star-fill"></i> {{ number_format($producto->rating, 1) }}
                   </div>
