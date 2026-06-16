@@ -93,7 +93,7 @@ Route::middleware(['auth', 'role:barista,cajero,coordinador_delivery,admin_siste
     // Productos y Promociones — admin_sistema y admin_general
     Route::middleware('role:admin_sistema,admin_general')->group(function () {
         Route::resource('productos', ProductoAdminController::class);
-        Route::resource('promociones', PromocionAdminController::class);
+        Route::resource('promociones', PromocionAdminController::class)->parameters(['promociones' => 'promocion']);
         Route::patch('/promociones/{promocion}/toggle', [PromocionAdminController::class, 'toggleActiva'])->name('promociones.toggle');
     });
 
