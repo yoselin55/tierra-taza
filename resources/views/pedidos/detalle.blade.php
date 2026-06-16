@@ -104,6 +104,7 @@
       <div class="pedido-detalle-card">
         <h5 class="pedido-detalle-title"><i class="bi bi-megaphone-fill me-2" style="color:var(--c-gold)"></i>Reclamos</h5>
 
+        <div id="reclamos-container">
         @if($pedido->incidencias->isNotEmpty())
           @foreach($pedido->incidencias as $inc)
             <div class="reclamo-item mb-3 {{ $inc->estado }}">
@@ -126,6 +127,7 @@
           @endforeach
           <div class="divider-gold my-3"></div>
         @endif
+        </div>{{-- #reclamos-container --}}
 
         {{-- Formulario nuevo reclamo --}}
         @php $tieneAbierto = $pedido->incidencias->where('estado','abierta')->count() > 0; @endphp
@@ -195,3 +197,45 @@
   </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+(function() {
+  var pollUrl  = "{{ route('pedidos.incidencias_poll', $pedido) }}";
+  var container = document.getElementById('reclamos-container');
+  if (!container) return;
+
+  function badgeClass(b) {
+    return { 'badge-danger':'badge-danger','badge-warning':'badge-warning','badge-success':'badge-success' }[b] || 'badge-tt';
+  }
+
+  function renderIncidencias(list) {
+    if (!list.length) return;
+    var html = '';
+    list.forEach(function(inc) {
+      html += '<div class="reclamo-item mb-3 ' + inc.estado + '">';
+      html += '<div class="d-flex justify-content-between align-items-start mb-2">';
+      html += '<div style="font-weight:700"><i class="bi ' + inc.icono + ' me-1"></i>' + inc.tipo + '</div>';
+      html += '<span class="badge-tt ' + inc.estado_badge + '">' + inc.estado_label + '</span>';
+      html += '</div>';
+      html += '<p style="font-size:0.875rem;margin-bottom:0.5rem">' + inc.descripcion + '</p>';
+      if (inc.respuesta) {
+        html += '<div class="reclamo-respuesta"><i class="bi bi-reply-fill me-1" style="color:var(--c-gold)"></i><strong>Respuesta:</strong> ' + inc.respuesta + '</div>';
+      } else {
+        html += '<div style="font-size:0.8rem;color:var(--c-muted)"><i class="bi bi-clock me-1"></i>En revisión por el cajero</div>';
+      }
+      html += '</div>';
+    });
+    html += '<div class="divider-gold my-3"></div>';
+    container.innerHTML = html;
+  }
+
+  setInterval(function() {
+    fetch(pollUrl, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+      .then(function(r) { return r.json(); })
+      .then(function(d) { if (d.incidencias) renderIncidencias(d.incidencias); })
+      .catch(function() {});
+  }, 8000);
+})();
+</script>
+@endpush

@@ -68,6 +68,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/mis-pedidos/{pedido}/boleta',      [PedidoController::class, 'boleta'])->name('pedidos.boleta');
     Route::get('/mis-pedidos/{pedido}/comprobante', [PedidoController::class, 'comprobante'])->name('pedidos.comprobante');
     Route::post('/mis-pedidos/{pedido}/incidencia',[PedidoController::class, 'reportarIncidencia'])->name('pedidos.incidencia');
+    Route::get('/mis-pedidos/{pedido}/incidencias-poll',[PedidoController::class, 'incidenciasPoll'])->name('pedidos.incidencias_poll');
 
     // Perfil de usuario
     Route::get('/perfil',            [PerfilController::class, 'index'])->name('perfil.index');

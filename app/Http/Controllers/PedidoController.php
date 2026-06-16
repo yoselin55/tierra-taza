@@ -209,4 +209,25 @@ class PedidoController extends Controller
 
         return back()->with('success', 'Tu reclamo fue enviado. El cajero lo revisará y te responderá pronto.');
     }
+
+    public function incidenciasPoll(Pedido $pedido)
+    {
+        if ($pedido->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $incidencias = $pedido->incidencias()->latest()->get()->map(fn($inc) => [
+            'id'        => $inc->id,
+            'tipo'      => $inc->tipo_label,
+            'icono'     => $inc->tipo_icono,
+            'estado'    => $inc->estado,
+            'estado_label' => $inc->estado_label,
+            'estado_badge' => $inc->estado_badge,
+            'descripcion'  => $inc->descripcion,
+            'respuesta'    => $inc->respuesta,
+            'fecha'        => $inc->fecha->format('d/m/Y H:i'),
+        ]);
+
+        return response()->json(['incidencias' => $incidencias]);
+    }
 }
