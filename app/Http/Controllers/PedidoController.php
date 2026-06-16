@@ -198,14 +198,30 @@ class PedidoController extends Controller
             'descripcion' => 'required|string|max:500',
         ]);
 
-        // Solo puede reportar si el pedido no es pendiente sin pagar
-        Incidencia::create([
+        $inc = Incidencia::create([
             'pedido_id'   => $pedido->id,
             'tipo'        => $request->tipo,
             'descripcion' => $request->descripcion,
             'fecha'       => now(),
             'estado'      => 'abierta',
         ]);
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'ok'  => true,
+                'inc' => [
+                    'id'           => $inc->id,
+                    'tipo'         => $inc->tipo_label,
+                    'icono'        => $inc->tipo_icono,
+                    'estado'       => $inc->estado,
+                    'estado_label' => $inc->estado_label,
+                    'estado_badge' => $inc->estado_badge,
+                    'descripcion'  => $inc->descripcion,
+                    'respuesta'    => null,
+                    'fecha'        => $inc->fecha->format('d/m/Y H:i'),
+                ],
+            ]);
+        }
 
         return back()->with('success', 'Tu reclamo fue enviado. El cajero lo revisará y te responderá pronto.');
     }

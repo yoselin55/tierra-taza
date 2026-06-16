@@ -132,7 +132,8 @@
         {{-- Formulario nuevo reclamo --}}
         @php $tieneAbierto = $pedido->incidencias->where('estado','abierta')->count() > 0; @endphp
         @if(!$tieneAbierto)
-          <form action="{{ route('pedidos.incidencia', $pedido) }}" method="POST">
+          <div id="reclamo-form-wrap">
+          <form id="reclamo-form" action="{{ route('pedidos.incidencia', $pedido) }}" method="POST">
             @csrf
             <p style="color:var(--c-muted);font-size:0.875rem;margin-bottom:1rem">
               ¿Tuviste algún problema? Selecciona el tipo de reclamo:
@@ -164,6 +165,7 @@
               <i class="bi bi-send-fill"></i> Enviar Reclamo
             </button>
           </form>
+          </div>{{-- #reclamo-form-wrap --}}
         @else
           <div style="text-align:center;padding:1rem;color:var(--c-muted);font-size:0.875rem">
             <i class="bi bi-hourglass-split me-1"></i>Ya tienes un reclamo abierto. Espera la respuesta del cajero.
@@ -201,39 +203,86 @@
 @push('scripts')
 <script>
 (function() {
-  var pollUrl  = "{{ route('pedidos.incidencias_poll', $pedido) }}";
+  var pollUrl   = "{{ route('pedidos.incidencias_poll', $pedido) }}";
+  var submitUrl = "{{ route('pedidos.incidencia', $pedido) }}";
+  var csrf      = document.querySelector('meta[name="csrf-token"]').content;
   var container = document.getElementById('reclamos-container');
-  if (!container) return;
+  var formWrap  = document.getElementById('reclamo-form-wrap');
+  var form      = document.getElementById('reclamo-form');
 
-  function badgeClass(b) {
-    return { 'badge-danger':'badge-danger','badge-warning':'badge-warning','badge-success':'badge-success' }[b] || 'badge-tt';
+  function renderInc(inc) {
+    var div = document.createElement('div');
+    div.className = 'reclamo-item mb-3 ' + inc.estado;
+    div.innerHTML =
+      '<div class="d-flex justify-content-between align-items-start mb-2">' +
+        '<div style="font-weight:700"><i class="bi ' + inc.icono + ' me-1"></i>' + inc.tipo + '</div>' +
+        '<span class="badge-tt ' + inc.estado_badge + '">' + inc.estado_label + '</span>' +
+      '</div>' +
+      '<p style="font-size:0.875rem;margin-bottom:0.5rem">' + inc.descripcion + '</p>' +
+      '<div style="font-size:0.8rem;color:var(--c-muted)"><i class="bi bi-clock me-1"></i>En revisión por el cajero</div>';
+    return div;
   }
 
   function renderIncidencias(list) {
     if (!list.length) return;
-    var html = '';
-    list.forEach(function(inc) {
-      html += '<div class="reclamo-item mb-3 ' + inc.estado + '">';
-      html += '<div class="d-flex justify-content-between align-items-start mb-2">';
-      html += '<div style="font-weight:700"><i class="bi ' + inc.icono + ' me-1"></i>' + inc.tipo + '</div>';
-      html += '<span class="badge-tt ' + inc.estado_badge + '">' + inc.estado_label + '</span>';
-      html += '</div>';
-      html += '<p style="font-size:0.875rem;margin-bottom:0.5rem">' + inc.descripcion + '</p>';
-      if (inc.respuesta) {
-        html += '<div class="reclamo-respuesta"><i class="bi bi-reply-fill me-1" style="color:var(--c-gold)"></i><strong>Respuesta:</strong> ' + inc.respuesta + '</div>';
-      } else {
-        html += '<div style="font-size:0.8rem;color:var(--c-muted)"><i class="bi bi-clock me-1"></i>En revisión por el cajero</div>';
-      }
-      html += '</div>';
-    });
-    html += '<div class="divider-gold my-3"></div>';
-    container.innerHTML = html;
+    container.innerHTML = '';
+    list.forEach(function(inc) { container.appendChild(renderInc(inc)); });
+    var hr = document.createElement('div');
+    hr.className = 'divider-gold my-3';
+    container.appendChild(hr);
   }
 
+  // Envío AJAX del formulario
+  if (form) {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var btn = form.querySelector('button[type=submit]');
+      var original = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<i class="bi bi-hourglass-split me-1"></i> Enviando...';
+
+      fetch(submitUrl, {
+        method: 'POST',
+        headers: {
+          'X-CSRF-TOKEN': csrf,
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams(new FormData(form)),
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        if (d.ok) {
+          // Insertar el reclamo en el container
+          container.insertBefore(renderInc(d.inc), container.firstChild);
+          var hr = document.createElement('div');
+          hr.className = 'divider-gold my-3';
+          container.appendChild(hr);
+          // Ocultar el formulario y mostrar mensaje de espera
+          if (formWrap) {
+            formWrap.innerHTML =
+              '<div style="text-align:center;padding:1rem;color:var(--c-muted);font-size:0.875rem">' +
+              '<i class="bi bi-hourglass-split me-1"></i>Ya tienes un reclamo abierto. Espera la respuesta del cajero.' +
+              '</div>';
+          }
+        } else {
+          btn.disabled = false;
+          btn.innerHTML = original;
+        }
+      })
+      .catch(function() {
+        btn.disabled = false;
+        btn.innerHTML = original;
+        alert('Error al enviar. Intenta de nuevo.');
+      });
+    });
+  }
+
+  // Polling cada 8 segundos para actualizar respuestas
   setInterval(function() {
     fetch(pollUrl, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
       .then(function(r) { return r.json(); })
-      .then(function(d) { if (d.incidencias) renderIncidencias(d.incidencias); })
+      .then(function(d) { if (d.incidencias && d.incidencias.length) renderIncidencias(d.incidencias); })
       .catch(function() {});
   }, 8000);
 })();
