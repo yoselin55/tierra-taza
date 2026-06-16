@@ -10,15 +10,32 @@ class IncidenciaAdminController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Incidencia::with(['pedido.user'])->latest();
+        $filtro = $request->estado;
 
-        if ($request->estado) {
-            $query->where('estado', $request->estado);
+        if ($filtro) {
+            $incidencias = Incidencia::with(['pedido.user'])
+                ->where('estado', $filtro)
+                ->latest()
+                ->paginate(20);
+            return view('admin.incidencias.index', compact('incidencias', 'filtro'));
         }
 
-        $incidencias = $query->paginate(20);
+        $activas   = Incidencia::with(['pedido.user'])
+            ->whereIn('estado', ['abierta', 'en_proceso'])
+            ->latest()
+            ->get();
 
-        return view('admin.incidencias.index', compact('incidencias'));
+        $resueltas = Incidencia::with(['pedido.user'])
+            ->where('estado', 'resuelta')
+            ->latest()
+            ->paginate(15);
+
+        return view('admin.incidencias.index', [
+            'incidencias' => null,
+            'activas'     => $activas,
+            'resueltas'   => $resueltas,
+            'filtro'      => null,
+        ]);
     }
 
     public function responder(Request $request, Incidencia $incidencia)
